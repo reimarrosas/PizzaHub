@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/signInOptionsFragment">
+
+    <fragment
+        android:id="@+id/signInOptionsFragment"
+        android:name="me.reimarrosas.pizzahub.fragments.SignInOptionsFragment"
+        android:label="fragment_signin_options"
+        tools:layout="@layout/fragment_signin_options" >
+        <action
+            android:id="@+id/action_signInOptionsFragment_to_emailSigninFragment"
+            app:destination="@id/emailSignInFragment" />
+        <action
+            android:id="@+id/action_signInOptionsFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/emailSignInFragment"
+        android:name="me.reimarrosas.pizzahub.fragments.EmailSignInFragment"
+        android:label="fragment_email_signin"
+        tools:layout="@layout/fragment_email_signin" >
+        <action
+            android:id="@+id/action_emailSigninFragment_to_emailSignupFragment"
+            app:destination="@id/emailSignupFragment" />
+        <action
+            android:id="@+id/action_emailSigninFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/emailSignupFragment"
+        android:name="me.reimarrosas.pizzahub.fragments.EmailSignupFragment"
+        android:label="fragment_email_signup"
+        tools:layout="@layout/fragment_email_signup" >
+        <action
+            android:id="@+id/action_emailSignupFragment_to_emailSigninFragment"
+            app:destination="@id/emailSignInFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="me.reimarrosas.pizzahub.fragments.HomeFragment"
+        android:label="fragment_home"
+        tools:layout="@layout/fragment_home" />
+</navigation>

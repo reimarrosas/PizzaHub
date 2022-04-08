@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "974100330093",
+    "project_id": "pizzahub-129fe",
+    "storage_bucket": "pizzahub-129fe.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:974100330093:android:649cc32232125854f9f164",
+        "android_client_info": {
+          "package_name": "me.reimarrosas.pizzahub"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "974100330093-91o69rnk02tpph00k95qhls5okun914v.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDCkCt-WokxzxPnI8vwFzdMr872rTL6LqM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "974100330093-91o69rnk02tpph00k95qhls5okun914v.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

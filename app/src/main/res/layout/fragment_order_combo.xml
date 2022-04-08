@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/yellow"
+    tools:context=".fragments.OrderComboFragment">
+
+    <!-- TODO: Update blank fragment layout -->
+    <TextView
+        android:id="@+id/textViewOrderComboTitle"
+        style="@style/title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="@string/order_pizza_title"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewOrderComboTitle" />
+
+    <Button
+        android:id="@+id/buttonOrderComboContinue"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="64dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="64dp"
+        android:text="@string/continue_button"
+        android:textColor="@color/yellow"
+        android:textSize="16sp"
+        android:letterSpacing="0.2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/recyclerView" />
+
+    <Button
+        android:id="@+id/buttonOrderComboSave"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Save"
+        android:textSize="16sp"
+        android:textColor="@color/light"
+        android:backgroundTint="@color/grey"
+        android:letterSpacing="0.2"
+        app:layout_constraintEnd_toEndOf="@+id/buttonOrderComboContinue"
+        app:layout_constraintStart_toStartOf="@+id/buttonOrderComboContinue"
+        app:layout_constraintTop_toBottomOf="@+id/buttonOrderComboContinue" />
+
+    <Button
+        android:id="@+id/buttonOrderComboCancel"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/blue"
+        android:text="@string/cancel_button"
+        android:textColor="@color/light"
+        android:textSize="16sp"
+        android:letterSpacing="0.2"
+        app:layout_constraintEnd_toEndOf="@+id/buttonOrderComboSave"
+        app:layout_constraintStart_toStartOf="@+id/buttonOrderComboSave"
+        app:layout_constraintTop_toBottomOf="@+id/buttonOrderComboSave" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
