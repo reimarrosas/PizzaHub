@@ -17,10 +17,7 @@
         android:layout_marginBottom="32dp"
         app:layout_constraintBottom_toTopOf="@+id/editTextAdminId"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_chainStyle="packed" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <EditText
         android:id="@+id/editTextAdminId"
@@ -29,33 +26,30 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
         android:layout_marginEnd="32dp"
+        android:layout_marginBottom="16dp"
+        android:autofillHints=""
         android:ems="10"
         android:hint="@string/admin_id"
         android:inputType="text"
         android:minHeight="48dp"
         app:layout_constraintBottom_toTopOf="@+id/editTextAdminPassword"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textViewAdminLoginTitle"
-        android:autofillHints="" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <EditText
         android:id="@+id/editTextAdminPassword"
         style="@style/input_text"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
+        android:autofillHints=""
         android:ems="10"
         android:hint="@string/admin_password"
         android:inputType="textPassword"
         android:minHeight="48dp"
-        app:layout_constraintBottom_toTopOf="@+id/buttonAdminLogin"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/editTextAdminId"
-        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="@+id/editTextAdminId"
-        app:layout_constraintTop_toBottomOf="@+id/editTextAdminId"
-        android:autofillHints="" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/buttonAdminLogin"
@@ -65,40 +59,17 @@
         android:layout_marginTop="32dp"
         android:layout_marginEnd="64dp"
         android:text="@string/login_button_text"
-        app:layout_constraintBottom_toTopOf="@+id/textViewAnotherAccountPrompt"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editTextAdminPassword"
         tools:ignore="TextContrastCheck" />
 
     <TextView
-        android:id="@+id/textViewAnotherAccountPrompt"
+        android:id="@+id/textViewAdminGoBackLink"
+        style="@style/go_back_link"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="2dp"
-        android:text="@string/another_account_prompt"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/textViewAnotherAccountLink"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintHorizontal_chainStyle="packed"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/buttonAdminLogin"
-        tools:ignore="TextContrastCheck" />
-
-    <TextView
-        android:id="@+id/textViewAnotherAccountLink"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="2dp"
-        android:text="@string/another_account_link"
-        android:textColor="@color/blue"
-        app:layout_constraintBottom_toBottomOf="@+id/textViewAnotherAccountPrompt"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/textViewAnotherAccountPrompt"
-        app:layout_constraintTop_toTopOf="@+id/textViewAnotherAccountPrompt"
-        tools:ignore="TextContrastCheck" />
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

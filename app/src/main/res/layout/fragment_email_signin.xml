@@ -100,4 +100,13 @@
         app:layout_constraintBottom_toTopOf="@+id/editTextEmailAddress"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/textViewGoBackLink"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="@style/go_back_link"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="TextContrastCheck" />
 </androidx.constraintlayout.widget.ConstraintLayout>

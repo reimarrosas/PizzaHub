@@ -67,6 +67,11 @@ public class AdminLoginFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        binding.textViewAdminGoBackLink.setOnClickListener(_view -> {
+            NavDirections action = AdminLoginFragmentDirections
+                    .actionAdminLoginFragmentToSignInOptionsFragment();
+            Navigation.findNavController(view).navigate(action);
+        });
         binding.buttonAdminLogin.setOnClickListener(_view -> {
             String adminId = binding.editTextAdminId.getText().toString();
             String adminPw = binding.editTextAdminPassword.getText().toString();

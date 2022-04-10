@@ -77,6 +77,7 @@ public class SignInOptionsFragment extends Fragment {
         GoogleSignInOptions gso = new GoogleSignInOptions
                 .Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(getString(R.string.web_client_id))
+                .requestEmail()
                 .build();
         googleSignInClient = GoogleSignIn.getClient(getContext(), gso);
     }
@@ -119,24 +120,6 @@ public class SignInOptionsFragment extends Fragment {
         binding = null;
     }
 
-    private void goToSignIn(View view) {
-        NavDirections action = SignInOptionsFragmentDirections
-                .actionSignInOptionsFragmentToEmailSigninFragment();
-        Navigation.findNavController(view).navigate(action);
-    }
-
-    private void goToHome(FirebaseUser user) {
-        NavDirections action = SignInOptionsFragmentDirections
-                .actionSignInOptionsFragmentToHomeFragment(user);
-        Navigation.findNavController(getView()).navigate(action);
-    }
-
-    private void goToAdminLogin(View view) {
-        NavDirections action = SignInOptionsFragmentDirections
-                .actionSignInOptionsFragmentToAdminLoginFragment();
-        Navigation.findNavController(view).navigate(action);
-    }
-
     private void googleLoginHandler(View view) {
         Intent signInIntent = googleSignInClient.getSignInIntent();
         startActivityForResult(signInIntent, AUTH_GOOGLE);
@@ -167,6 +150,24 @@ public class SignInOptionsFragment extends Fragment {
                         ).show();
                     }
                 });
+    }
+
+    private void goToSignIn(View view) {
+        NavDirections action = SignInOptionsFragmentDirections
+                .actionSignInOptionsFragmentToEmailSigninFragment();
+        Navigation.findNavController(view).navigate(action);
+    }
+
+    private void goToHome(FirebaseUser user) {
+        NavDirections action = SignInOptionsFragmentDirections
+                .actionSignInOptionsFragmentToHomeFragment(user);
+        Navigation.findNavController(getView()).navigate(action);
+    }
+
+    private void goToAdminLogin(View view) {
+        NavDirections action = SignInOptionsFragmentDirections
+                .actionSignInOptionsFragmentToAdminLoginFragment();
+        Navigation.findNavController(view).navigate(action);
     }
 
 }

@@ -94,6 +94,9 @@
         <action
             android:id="@+id/action_adminLoginFragment_to_adminHomeFragment"
             app:destination="@id/adminHomeFragment" />
+        <action
+            android:id="@+id/action_adminLoginFragment_to_signInOptionsFragment"
+            app:destination="@id/signInOptionsFragment" />
     </fragment>
     <fragment
         android:id="@+id/adminHomeFragment"

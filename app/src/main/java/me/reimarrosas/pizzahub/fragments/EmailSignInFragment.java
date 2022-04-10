@@ -73,10 +73,8 @@ public class EmailSignInFragment extends Fragment {
             Navigation.findNavController(view).navigate(action);
         }
 
-        binding.textViewSignUpLink.setOnClickListener(_view -> {
-            NavDirections action = EmailSignInFragmentDirections.actionEmailSigninFragmentToEmailSignupFragment();
-            Navigation.findNavController(_view).navigate(action);
-        });
+        binding.textViewSignUpLink.setOnClickListener(this::goToSignUp);
+        binding.textViewGoBackLink.setOnClickListener(this::goToSignInOptions);
         binding.buttonLogin.setOnClickListener(this::loginHandler);
     }
 
@@ -117,11 +115,21 @@ public class EmailSignInFragment extends Fragment {
                 });
     }
 
+    private void goToSignUp(View view) {
+        NavDirections action = EmailSignInFragmentDirections.actionEmailSigninFragmentToEmailSignupFragment();
+        Navigation.findNavController(view).navigate(action);
+    }
+
     private void goToHome(View view, FirebaseUser user) {
         NavDirections action = EmailSignInFragmentDirections
                 .actionEmailSigninFragmentToHomeFragment(user);
         Navigation.findNavController(view).navigate(action);
     }
 
+    private void goToSignInOptions(View view) {
+        NavDirections action = EmailSignInFragmentDirections
+                .actionEmailSignInFragmentToSignInOptionsFragment();
+        Navigation.findNavController(view).navigate(action);
+    }
 
 }
