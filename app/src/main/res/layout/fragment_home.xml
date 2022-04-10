@@ -19,6 +19,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView4"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
@@ -27,8 +28,8 @@
         app:layout_constraintTop_toBottomOf="@+id/textView" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/floatingActionButton"
-        style="@style/fab_menu"
+        android:id="@+id/floatingActionButtonMain"
+        style="@style/fab_main"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -37,13 +38,88 @@
         tools:ignore="SpeakableTextPresentCheck" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/floatingActionButton2"
-        style="@style/fab_menu"
-        app:tint="@color/yellow"
+        android:id="@+id/floatingActionButtonLogout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toTopOf="@+id/floatingActionButton"
+        android:src="@drawable/ic_logout"
+        style="@style/fab_button"
+        app:tint="@color/yellow"
+        app:layout_constraintBottom_toTopOf="@+id/floatingActionButtonMain"
         app:layout_constraintEnd_toEndOf="parent"
-        tools:ignore="SpeakableTextPresentCheck" />
+         />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/floatingActionButtonHistory"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_baseline_archive_24"
+        app:layout_constraintBottom_toTopOf="@+id/floatingActionButtonLogout"
+        app:layout_constraintEnd_toEndOf="parent"
+        style="@style/fab_button"
+        app:tint="@color/yellow" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/floatingActionButtonSave"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_baseline_save_24"
+        app:layout_constraintBottom_toTopOf="@+id/floatingActionButtonHistory"
+        style="@style/fab_button"
+        app:tint="@color/yellow"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/floatingActionButtonHome"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_baseline_home_24"
+        style="@style/fab_button"
+        app:tint="@color/yellow"
+        app:layout_constraintBottom_toTopOf="@+id/floatingActionButtonSave"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <TextView
+        android:id="@+id/textViewLogout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:textSize="14sp"
+        android:text="@string/logout"
+        app:layout_constraintBottom_toBottomOf="@+id/floatingActionButtonLogout"
+        app:layout_constraintEnd_toStartOf="@+id/floatingActionButtonLogout"
+        app:layout_constraintTop_toTopOf="@+id/floatingActionButtonLogout" />
+
+    <TextView
+        android:id="@+id/textViewHistory"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:textSize="14sp"
+        android:text="Order History"
+        app:layout_constraintBottom_toBottomOf="@+id/floatingActionButtonHistory"
+        app:layout_constraintEnd_toStartOf="@+id/floatingActionButtonHistory"
+        app:layout_constraintTop_toTopOf="@+id/floatingActionButtonHistory" />
+
+    <TextView
+        android:id="@+id/textViewSave"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:textSize="14sp"
+        android:text="Order Saved"
+        app:layout_constraintBottom_toBottomOf="@+id/floatingActionButtonSave"
+        app:layout_constraintEnd_toStartOf="@+id/floatingActionButtonSave"
+        app:layout_constraintTop_toTopOf="@+id/floatingActionButtonSave" />
+
+    <TextView
+        android:id="@+id/textViewHome"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:textSize="14sp"
+        android:text="Home"
+        app:layout_constraintBottom_toBottomOf="@+id/floatingActionButtonHome"
+        app:layout_constraintEnd_toStartOf="@+id/floatingActionButtonHome"
+        app:layout_constraintTop_toTopOf="@+id/floatingActionButtonHome" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

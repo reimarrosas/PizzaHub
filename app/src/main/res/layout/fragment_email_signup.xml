@@ -13,11 +13,11 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
         android:layout_marginEnd="32dp"
-        android:layout_marginBottom="32dp"
+        android:layout_marginBottom="16dp"
         android:autofillHints=""
         android:background="@color/light"
         android:ems="10"
-        android:hint="@string/email_input_text"
+        android:hint="@string/email_address"
         android:inputType="textEmailAddress"
         android:minHeight="48dp"
         android:paddingHorizontal="12dp"
@@ -25,7 +25,9 @@
         android:textColorHint="@color/grey"
         app:layout_constraintBottom_toTopOf="@+id/editTextPasswordSignup"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewLogoSignup"
         tools:ignore="TextContrastCheck" />
 
     <Button
@@ -38,9 +40,26 @@
         android:text="@string/signup_button_text"
         android:textColor="@color/yellow"
         android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/textViewLoginPrompt"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextPasswordSignup" />
+        app:layout_constraintTop_toBottomOf="@+id/editTextVerifyPasswordSignup" />
+
+    <TextView
+        android:id="@+id/textViewLoginPrompt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="2dp"
+        android:layout_marginTop="12dp"
+        android:text="@string/login_prompt_text"
+        android:textColor="@color/dark"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/textViewLoginLink"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/buttonSignup" />
 
     <EditText
         android:id="@+id/editTextPasswordSignup"
@@ -51,32 +70,41 @@
         android:autofillHints=""
         android:background="@color/light"
         android:ems="10"
-        android:hint="@string/password_input_text"
+        android:hint="@string/password"
         android:inputType="textPassword"
         android:minHeight="48dp"
         android:paddingHorizontal="12dp"
         android:paddingVertical="8dp"
         android:textColorHint="@color/grey"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/editTextVerifyPasswordSignup"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editTextEmailAddressSignup"
         tools:ignore="TextContrastCheck" />
 
-    <TextView
-        android:id="@+id/textViewLoginPrompt"
-        android:layout_width="wrap_content"
+    <EditText
+        android:id="@+id/editTextVerifyPasswordSignup"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="2dp"
-        android:layout_marginTop="8dp"
-        android:text="@string/login_prompt_text"
-        android:textColor="@color/dark"
-        app:layout_constraintEnd_toStartOf="@+id/textViewLoginLink"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="32dp"
+        android:autofillHints=""
+        android:background="@color/light"
+        android:ems="10"
+        android:hint="@string/verify_password"
+        android:inputType="textPassword"
+        android:minHeight="48dp"
+        android:paddingHorizontal="12dp"
+        android:paddingVertical="8dp"
+        android:textColorHint="@color/grey"
+        app:layout_constraintBottom_toTopOf="@+id/buttonSignup"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintHorizontal_chainStyle="packed"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/buttonSignup" />
+        app:layout_constraintTop_toBottomOf="@+id/editTextPasswordSignup"
+        tools:ignore="TextContrastCheck" />
 
     <TextView
         android:id="@+id/textViewLoginLink"
@@ -94,10 +122,14 @@
 
     <TextView
         android:id="@+id/textViewLogoSignup"
+        style="@style/ph_logo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        style="@style/ph_logo"
+        android:layout_marginBottom="32dp"
         app:layout_constraintBottom_toTopOf="@+id/editTextEmailAddressSignup"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_chainStyle="packed" />
 </androidx.constraintlayout.widget.ConstraintLayout>

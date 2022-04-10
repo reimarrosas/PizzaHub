@@ -11,9 +11,13 @@ import androidx.navigation.Navigation;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
-import me.reimarrosas.pizzahub.R;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+
 import me.reimarrosas.pizzahub.databinding.FragmentEmailSignupBinding;
+import me.reimarrosas.pizzahub.helper.ValidationHelper;
 
 /**
  * Email Sign Up Fragment that shows how the user can Sign up on for the Application.
@@ -21,6 +25,8 @@ import me.reimarrosas.pizzahub.databinding.FragmentEmailSignupBinding;
 public class EmailSignupFragment extends Fragment {
 
     private FragmentEmailSignupBinding binding;
+
+    private FirebaseAuth auth;
 
     public EmailSignupFragment() {
         // Required empty public constructor
@@ -42,9 +48,7 @@ public class EmailSignupFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            // SET THE ARGUMENTS AS MEMBERS
-        }
+        auth = FirebaseAuth.getInstance();
     }
 
     @Override
@@ -58,16 +62,69 @@ public class EmailSignupFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        FirebaseUser currentUser = auth.getCurrentUser();
+        if (currentUser != null) {
+            navigateToHome(view, currentUser);
+        }
+
         binding.textViewLoginLink.setOnClickListener(_view -> {
             NavDirections action = EmailSignupFragmentDirections.actionEmailSignupFragmentToEmailSigninFragment();
             Navigation.findNavController(_view).navigate(action);
         });
+        binding.buttonSignup.setOnClickListener(this::signUpHandler);
+
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
         binding = null;
+        auth = null;
+    }
+
+    private void navigateToHome(View view, FirebaseUser user) {
+        NavDirections action = EmailSignupFragmentDirections.actionEmailSignupFragmentToHomeFragment(user);
+        Navigation.findNavController(view).navigate(action);
+    }
+
+    private void signUpHandler(View view) {
+        String email = binding.editTextEmailAddressSignup.getText().toString();
+        String password = binding.editTextPasswordSignup.getText().toString();
+        String verifyPassword = binding.editTextVerifyPasswordSignup.getText().toString();
+
+        String validationText = ValidationHelper.isCredentialsValid(
+                email,
+                password,
+                verifyPassword,
+                ValidationHelper.CredentialType.SIGN_UP
+        );
+
+        if ("".equals(validationText)) {
+            signUpUser(email.toLowerCase().trim(), password, view);
+        } else {
+            Toast.makeText(getContext(), validationText, Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void signUpUser(String email, String password, View view) {
+        auth.createUserWithEmailAndPassword(email, password)
+                .addOnCompleteListener(getActivity(), task -> {
+                    if (task.isSuccessful()) {
+                        goToHome(view, task.getResult().getUser());
+                    } else {
+                        Toast.makeText(
+                                EmailSignupFragment.this.getContext(),
+                                "Sign Up Failed!",
+                                Toast.LENGTH_SHORT
+                        ).show();
+                    }
+                });
+    }
+
+    private void goToHome(View view, FirebaseUser user) {
+        NavDirections action = EmailSignupFragmentDirections
+                .actionEmailSignupFragmentToHomeFragment(user);
+        Navigation.findNavController(view).navigate(action);
     }
 
 }

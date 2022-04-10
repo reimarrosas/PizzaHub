@@ -14,6 +14,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "974100330093-5pnaifh7cglqsmk1389u4j5m8dnsj6nc.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "me.reimarrosas.pizzahub",
+            "certificate_hash": "0f39cceda65dc3f4f5c780991161b6159fbb068a"
+          }
+        },
+        {
           "client_id": "974100330093-91o69rnk02tpph00k95qhls5okun914v.apps.googleusercontent.com",
           "client_type": 3
         }

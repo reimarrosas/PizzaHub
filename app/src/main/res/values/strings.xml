@@ -1,5 +1,8 @@
 <resources>
     <string name="app_name">PizzaHub</string>
+    <string name="web_client_id">974100330093-91o69rnk02tpph00k95qhls5okun914v.apps.googleusercontent.com</string>
+    <string name="admin_identifier">admin1337</string>
+    <string name="admin_pw">$2a$10$JaxfLpdWuE7Dgm1xGay70.Wm5uUhe7kaaYI6aLZDVoXb6L36l5Muy</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string-array name="sides_list">
         <item>Side Type</item>
@@ -46,4 +49,12 @@
     <string name="add_to_list_button">Add</string>
     <string name="pizza_ingredient_input">Pizza Ingredient</string>
     <string name="add_premade_title">Add Premade</string>
+    <string name="email_address">Email Address</string>
+    <string name="password">Password</string>
+    <string name="verify_password">Verify Password</string>
+    <string name="logout">Log Out</string>
+    <string name="admin_id">Admin ID</string>
+    <string name="admin_password">Admin Password</string>
+    <string name="another_account_prompt">Want to log in using another account?</string>
+    <string name="another_account_link"><u>Sign In Options</u></string>
 </resources>

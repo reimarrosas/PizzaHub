@@ -9,25 +9,6 @@ public class ValidationHelper {
 
     public enum CredentialType {SIGN_IN, SIGN_UP}
 
-    public static boolean isEmailValid(String inputEmail) {
-        return inputEmail != null && Patterns.EMAIL_ADDRESS.matcher(inputEmail).matches();
-    }
-
-    public static boolean isPasswordValid(String inputPassword) {
-        String input = inputPassword.trim();
-
-        String passwordRegex = "^(?=.*[A-Z])(?=.*[@_.]).*$";
-        Pattern p = Pattern.compile(passwordRegex);
-        Matcher m = p.matcher(input);
-
-        return input.length() >= 8 && m.matches();
-    }
-
-    public static boolean isVerifyPasswordValid(String inputPassword, String inputVerifyPassword) {
-        return inputPassword != null
-                && inputPassword.equals(inputVerifyPassword);
-    }
-
     public static String isCredentialsValid(
             String inputEmail, String inputPassword,
             String inputVerifyPassword, CredentialType credentialType
@@ -45,6 +26,26 @@ public class ValidationHelper {
         }
 
         return error == null ? "" : error + " Invalid!";
+    }
+
+    private static boolean isEmailValid(String inputEmail) {
+        return inputEmail != null &&
+                Patterns.EMAIL_ADDRESS.matcher(inputEmail.toLowerCase().trim()).matches();
+    }
+
+    private static boolean isPasswordValid(String inputPassword) {
+        String input = inputPassword.trim();
+
+        String passwordRegex = "^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{8,}$";
+        Pattern p = Pattern.compile(passwordRegex);
+        Matcher m = p.matcher(input);
+
+        return input.length() >= 8 && m.matches();
+    }
+
+    private static boolean isVerifyPasswordValid(String inputPassword, String inputVerifyPassword) {
+        return inputPassword != null
+                && inputPassword.equals(inputVerifyPassword);
     }
 
 }
