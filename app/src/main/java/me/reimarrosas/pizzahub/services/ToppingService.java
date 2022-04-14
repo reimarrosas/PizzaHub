@@ -11,39 +11,33 @@ import java.util.List;
 import me.reimarrosas.pizzahub.contracts.Notifiable;
 import me.reimarrosas.pizzahub.contracts.Service;
 import me.reimarrosas.pizzahub.models.MenuItem;
-import me.reimarrosas.pizzahub.models.Side;
 import me.reimarrosas.pizzahub.models.Topping;
 
-public class SideService implements Service<Side> {
+public class ToppingService implements Service<Topping> {
 
-    private static final String TAG = "SideService";
-    private static final MenuItem.MenuItemType ITEM_TYPE = MenuItem.MenuItemType.SIDE;
+    private static final String TAG = "ToppingService";
+    private static final MenuItem.MenuItemType ITEM_TYPE = MenuItem.MenuItemType.TOPPING;
 
     private static final CollectionReference DB =
             FirebaseFirestore.getInstance()
-                    .collection("sides");
+                    .collection("toppings");
 
     private final Notifiable n;
 
-    public SideService(Notifiable n) {
+    public ToppingService(Notifiable n) {
         this.n = n;
     }
 
     @Override
-    public void fetchAllData(List<Side> data) {
+    public void fetchAllData(List<Topping> data) {
         DB.get()
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
-                        for (QueryDocumentSnapshot ds : task.getResult()) {
-                            Side s = ds.toObject(Side.class);
-                            s.setId(ds.getId());
-                            data.add(s);
-                        }
-
+                        data.addAll(snapshotToObject(task.getResult(), Topping.class));
                         n.notifyUpdatedData(data, ITEM_TYPE);
-                        Log.d(TAG, "Side List Fetching Success!");
+                        Log.d(TAG, "Topping List Fetching Success!");
                     } else {
-                        Log.w(TAG, "Error Fetching Sides: ", task.getException());
+                        Log.w(TAG, "Error fetching toppings: ", task.getException());
                     }
                 });
     }
@@ -55,17 +49,17 @@ public class SideService implements Service<Side> {
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
                         QueryDocumentSnapshot ds = (QueryDocumentSnapshot) task.getResult();
-                        Side s = snapshotToObject(ds, Side.class);
-                        n.notifyUpdatedData(s, ITEM_TYPE);
-                        Log.d(TAG, "Side Fetching Success!");
+                        Topping t = snapshotToObject(ds, Topping.class);
+                        n.notifyUpdatedData(t, ITEM_TYPE);
+                        Log.d(TAG, "Topping Fetching Success!");
                     } else {
-                        Log.w(TAG, "Error Fetching Side: ", task.getException());
+                        Log.w(TAG, "Error fetching topping: ", task.getException());
                     }
                 });
     }
 
     @Override
-    public void insertData(Side data) {
+    public void insertData(Topping data) {
         DB.add(data)
                 .addOnSuccessListener(ref ->
                         Log.d(TAG, "Document written with ID: " + ref.getId()))

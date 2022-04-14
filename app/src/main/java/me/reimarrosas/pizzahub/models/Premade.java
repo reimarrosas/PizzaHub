@@ -14,12 +14,25 @@ public class Premade extends MenuItem {
         this.toppings = toppings;
     }
 
+    public Premade(Premade p) {
+        super(p.getName(), p.getImageUrl());
+        this.toppings = p.toppings;
+    }
+
     public void setToppings(List<Topping> toppings) {
         this.toppings = toppings;
     }
 
     public List<Topping> getToppings() {
         return toppings;
+    }
+
+    @Override
+    public String toString() {
+        return String.format(
+                "Premade={%s, %s, %s}",
+                getName(), getImageUrl(), getToppings().toString()
+        );
     }
 
 }

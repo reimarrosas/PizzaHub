@@ -50,4 +50,18 @@
         <item name="android:text">@string/go_back_link</item>
         <item name="android:textColor">@color/blue</item>
     </style>
+
+    <style name="section_header">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">@color/red</item>
+        <item name="android:letterSpacing">0.3</item>
+        <item name="android:paddingStart">16sp</item>
+        <item name="android:paddingEnd">16sp</item>
+        <item name="android:paddingTop">8sp</item>
+        <item name="android:paddingBottom">8sp</item>
+        <item name="android:textColor">@color/yellow</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
 </resources>

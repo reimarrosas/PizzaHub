@@ -2,6 +2,7 @@ package me.reimarrosas.pizzahub.models;
 
 public abstract class MenuItem {
 
+    private String id;
     private String name;
     private String imageUrl;
 
@@ -12,6 +13,14 @@ public abstract class MenuItem {
     public MenuItem(String name, String imageUrl) {
         this.name = name;
         this.imageUrl = imageUrl;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public void setName(String name) {
@@ -28,6 +37,10 @@ public abstract class MenuItem {
 
     public String getImageUrl() {
         return imageUrl;
+    }
+
+    public enum MenuItemType {
+        PREMADE, TOPPING, SIDE, DRINK, SIZE
     }
 
 }

@@ -12,6 +12,11 @@ public class Topping extends Extras {
         this.type = type;
     }
 
+    public Topping(Topping t) {
+        super(t.getName(), t.getImageUrl(), t.getPrice());
+        this.type = t.type;
+    }
+
     public void setType(String type) {
         this.type = type;
     }
@@ -19,4 +24,13 @@ public class Topping extends Extras {
     public String getType() {
         return type;
     }
+
+    @Override
+    public String toString() {
+        return String.format(
+                "Topping={%s, %s, %s, $%.2f}",
+                getType(), getName(), getImageUrl(), getPrice()
+        );
+    }
+
 }

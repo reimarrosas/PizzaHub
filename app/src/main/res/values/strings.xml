@@ -58,4 +58,15 @@
     <string name="another_account_prompt">Want to log in using another account?</string>
     <string name="another_account_link"><u>Sign In Options</u></string>
     <string name="go_back_link"><u><![CDATA[< Go Back]]></u></string>
+    <string name="premade_pizza">Premade Pizza</string>
+    <string name="sides">Sides</string>
+    <string name="drinks">Drinks</string>
+    <string name="home">Home</string>
+    <string name="order_history">Order History</string>
+    <string name="main_fab">Main FAB</string>
+    <string name="logout_fab">Logout FAB</string>
+    <string name="history_fab">History FAB</string>
+    <string name="save_fab">Save FAB</string>
+    <string name="home_fab">Home FAB</string>
+    <string name="item_image">Item Image</string>
 </resources>

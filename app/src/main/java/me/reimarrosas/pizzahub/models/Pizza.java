@@ -23,6 +23,14 @@ public class Pizza {
         this.drinks = drinks;
     }
 
+    public Pizza(Pizza p) {
+        clearLists();
+        size = new Size(p.size);
+        toppings.addAll(p.toppings);
+        sides.addAll(p.sides);
+        drinks.addAll(p.drinks);
+    }
+
     public Size getSize() {
         return size;
     }
@@ -74,6 +82,13 @@ public class Pizza {
         }
 
         return totalPrice;
+    }
+
+    private void clearLists() {
+        size = null;
+        toppings.clear();
+        sides.clear();
+        drinks.clear();
     }
 
 }

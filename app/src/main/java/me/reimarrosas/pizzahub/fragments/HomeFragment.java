@@ -7,8 +7,8 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.NavDirections;
 import androidx.navigation.Navigation;
+import androidx.recyclerview.widget.GridLayoutManager;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,19 +16,44 @@ import android.view.ViewGroup;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import me.reimarrosas.pizzahub.R;
+import me.reimarrosas.pizzahub.contracts.Notifiable;
+import me.reimarrosas.pizzahub.contracts.Service;
 import me.reimarrosas.pizzahub.databinding.FragmentHomeBinding;
+import me.reimarrosas.pizzahub.models.Drink;
+import me.reimarrosas.pizzahub.models.MenuItem;
+import me.reimarrosas.pizzahub.models.Premade;
+import me.reimarrosas.pizzahub.models.Side;
+import me.reimarrosas.pizzahub.recycleradapters.DrinkHomeAdapter;
+import me.reimarrosas.pizzahub.recycleradapters.SideHomeAdapter;
+import me.reimarrosas.pizzahub.recycleradapters.PremadeHomeAdapter;
+import me.reimarrosas.pizzahub.services.DrinkService;
+import me.reimarrosas.pizzahub.services.PremadeService;
+import me.reimarrosas.pizzahub.services.SideService;
 
 /**
  * Home Fragment that shows the menu of the business (Pizzas, Sides, and Drinks).
  */
-public class HomeFragment extends Fragment {
+public class HomeFragment extends Fragment implements Notifiable {
+
+    private static final String TAG = "HomeFragment";
 
     private FirebaseAuth auth;
     private FirebaseUser user;
 
     private FragmentHomeBinding binding;
     private boolean isFabExpanded = false;
+
+    private Service<Premade> premadeService;
+    private Service<Side> sideService;
+    private Service<Drink> drinkService;
+
+    private PremadeHomeAdapter premadeHomeAdapter;
+    private SideHomeAdapter sideHomeAdapter;
+    private DrinkHomeAdapter drinkHomeAdapter;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -51,7 +76,11 @@ public class HomeFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         auth = FirebaseAuth.getInstance();
+        premadeService = new PremadeService(this);
+        sideService = new SideService(this);
+        drinkService = new DrinkService(this);
     }
 
     @Override
@@ -70,6 +99,10 @@ public class HomeFragment extends Fragment {
         setFragmentNavigation();
         hideFABs();
 
+        premadeService.fetchAllData(new ArrayList<>());
+        sideService.fetchAllData(new ArrayList<>());
+        drinkService.fetchAllData(new ArrayList<>());
+
         binding.floatingActionButtonMain.setOnClickListener(_view -> {
             if (!isFabExpanded) {
                 showFABs();
@@ -80,12 +113,31 @@ public class HomeFragment extends Fragment {
             isFabExpanded = !isFabExpanded;
         });
 
+        setupRecyclerViews();
+
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
         binding = null;
+    }
+
+    private void setupRecyclerViews() {
+        premadeHomeAdapter = new PremadeHomeAdapter(getContext());
+        sideHomeAdapter = new SideHomeAdapter(getContext());
+        drinkHomeAdapter = new DrinkHomeAdapter(getContext());
+
+        GridLayoutManager premadeLayoutManager = new GridLayoutManager(getContext(), 2);
+        GridLayoutManager sideLayoutManager = new GridLayoutManager(getContext(), 2);
+        GridLayoutManager drinkLayoutManager = new GridLayoutManager(getContext(), 2);
+
+        binding.recyclerViewHomePremade.setAdapter(premadeHomeAdapter);
+        binding.recyclerViewHomePremade.setLayoutManager(premadeLayoutManager);
+        binding.recyclerViewHomeSides.setAdapter(sideHomeAdapter);
+        binding.recyclerViewHomeSides.setLayoutManager(sideLayoutManager);
+        binding.recylerViewHomeDrinks.setAdapter(drinkHomeAdapter);
+        binding.recylerViewHomeDrinks.setLayoutManager(drinkLayoutManager);
     }
 
     private void showFABs() {
@@ -95,11 +147,6 @@ public class HomeFragment extends Fragment {
         binding.floatingActionButtonHistory.show();
         binding.floatingActionButtonSave.show();
         binding.floatingActionButtonHome.show();
-
-        binding.textViewLogout.setVisibility(View.VISIBLE);
-        binding.textViewHistory.setVisibility(View.VISIBLE);
-        binding.textViewSave.setVisibility(View.VISIBLE);
-        binding.textViewHome.setVisibility(View.VISIBLE);
     }
 
     private void hideFABs() {
@@ -109,12 +156,6 @@ public class HomeFragment extends Fragment {
         binding.floatingActionButtonHistory.hide();
         binding.floatingActionButtonSave.hide();
         binding.floatingActionButtonHome.hide();
-
-        binding.textViewLogout.setVisibility(View.GONE);
-        binding.textViewHistory.setVisibility(View.GONE);
-        binding.textViewSave.setVisibility(View.GONE);
-        binding.textViewHome.setVisibility(View.GONE);
-
     }
 
     private void setFragmentNavigation() {
@@ -143,6 +184,28 @@ public class HomeFragment extends Fragment {
         auth.signOut();
         NavDirections action = HomeFragmentDirections.actionHomeFragmentToSignInOptionsFragment();
         Navigation.findNavController(view).navigate(action);
+    }
+
+    @Override
+    public void notifyUpdatedData(List<? extends MenuItem> items, MenuItem.MenuItemType type) {
+        switch (type) {
+            case PREMADE:
+                premadeHomeAdapter.updateDataList((List<Premade>) items);
+                break;
+            case SIDE:
+                sideHomeAdapter.updateDataList((List<Side>) items);
+                break;
+            case DRINK:
+                drinkHomeAdapter.updateDataList((List<Drink>) items);
+                break;
+            default:
+                throw new UnsupportedOperationException("Supposed to be unreachable");
+        }
+    }
+
+    @Override
+    public <T extends MenuItem> void notifyUpdatedData(T item, MenuItem.MenuItemType type) {
+
     }
 
 }
