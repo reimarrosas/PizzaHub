@@ -1,4 +1,4 @@
-package me.reimarrosas.pizzahub.fragments;
+package me.reimarrosas.pizzahub.fragments.base;
 
 import android.os.Bundle;
 
@@ -9,6 +9,7 @@ import androidx.navigation.NavDirections;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.GridLayoutManager;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,9 +28,10 @@ import me.reimarrosas.pizzahub.models.Drink;
 import me.reimarrosas.pizzahub.models.MenuItem;
 import me.reimarrosas.pizzahub.models.Premade;
 import me.reimarrosas.pizzahub.models.Side;
-import me.reimarrosas.pizzahub.recycleradapters.DrinkHomeAdapter;
-import me.reimarrosas.pizzahub.recycleradapters.SideHomeAdapter;
-import me.reimarrosas.pizzahub.recycleradapters.PremadeHomeAdapter;
+import me.reimarrosas.pizzahub.models.Topping;
+import me.reimarrosas.pizzahub.recycleradapters.homeadapters.DrinkHomeAdapter;
+import me.reimarrosas.pizzahub.recycleradapters.homeadapters.SideHomeAdapter;
+import me.reimarrosas.pizzahub.recycleradapters.homeadapters.PremadeHomeAdapter;
 import me.reimarrosas.pizzahub.services.DrinkService;
 import me.reimarrosas.pizzahub.services.PremadeService;
 import me.reimarrosas.pizzahub.services.SideService;
@@ -94,8 +96,6 @@ public class HomeFragment extends Fragment implements Notifiable {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        user = HomeFragmentArgs.fromBundle(getArguments()).getUser();
-
         setFragmentNavigation();
         hideFABs();
 
@@ -146,6 +146,7 @@ public class HomeFragment extends Fragment implements Notifiable {
         binding.floatingActionButtonLogout.show();
         binding.floatingActionButtonHistory.show();
         binding.floatingActionButtonSave.show();
+        binding.floatingActionButtonOrder.show();
         binding.floatingActionButtonHome.show();
     }
 
@@ -155,18 +156,26 @@ public class HomeFragment extends Fragment implements Notifiable {
         binding.floatingActionButtonLogout.hide();
         binding.floatingActionButtonHistory.hide();
         binding.floatingActionButtonSave.hide();
+        binding.floatingActionButtonOrder.hide();
         binding.floatingActionButtonHome.hide();
     }
 
     private void setFragmentNavigation() {
         binding.floatingActionButtonHome.setOnClickListener(this::goToHome);
+        binding.floatingActionButtonOrder.setOnClickListener(this::goToOrderCombo);
         binding.floatingActionButtonSave.setOnClickListener(this::goToOrderSave);
         binding.floatingActionButtonHistory.setOnClickListener(this::goToOrderHistory);
         binding.floatingActionButtonLogout.setOnClickListener(this::logout);
     }
 
     private void goToHome(View view) {
-        NavDirections action = HomeFragmentDirections.actionHomeFragmentSelf(user);
+        NavDirections action = HomeFragmentDirections.actionHomeFragmentSelf();
+        Navigation.findNavController(view).navigate(action);
+    }
+
+    private void goToOrderCombo(View view) {
+        NavDirections action = HomeFragmentDirections
+                .actionHomeFragmentToOrderComboFragment(new Topping[]{});
         Navigation.findNavController(view).navigate(action);
     }
 
@@ -187,7 +196,7 @@ public class HomeFragment extends Fragment implements Notifiable {
     }
 
     @Override
-    public void notifyUpdatedData(List<? extends MenuItem> items, MenuItem.MenuItemType type) {
+    public void notifyUpdatedData(@NonNull List<? extends MenuItem> items, MenuItem.MenuItemType type) {
         switch (type) {
             case PREMADE:
                 premadeHomeAdapter.updateDataList((List<Premade>) items);
@@ -204,7 +213,7 @@ public class HomeFragment extends Fragment implements Notifiable {
     }
 
     @Override
-    public <T extends MenuItem> void notifyUpdatedData(T item, MenuItem.MenuItemType type) {
+    public <T extends MenuItem> void notifyUpdatedData(@NonNull T item, MenuItem.MenuItemType type) {
 
     }
 

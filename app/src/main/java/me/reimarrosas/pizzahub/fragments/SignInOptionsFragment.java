@@ -1,11 +1,8 @@
 package me.reimarrosas.pizzahub.fragments;
 
 import android.content.Intent;
-import android.content.IntentSender;
 import android.os.Bundle;
 
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -18,10 +15,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import com.google.android.gms.auth.api.identity.BeginSignInRequest;
-import com.google.android.gms.auth.api.identity.Identity;
-import com.google.android.gms.auth.api.identity.SignInClient;
-import com.google.android.gms.auth.api.identity.SignInCredential;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -96,7 +89,7 @@ public class SignInOptionsFragment extends Fragment {
 
         FirebaseUser currentUser = auth.getCurrentUser();
         if (currentUser != null) {
-            goToHome(currentUser);
+            goToHome();
         }
 
         binding.buttonGoogle.setOnClickListener(this::googleLoginHandler);
@@ -143,7 +136,7 @@ public class SignInOptionsFragment extends Fragment {
         auth.signInWithCredential(credential)
                 .addOnCompleteListener(getActivity(), task -> {
                     if (task.isSuccessful()) {
-                        goToHome(task.getResult().getUser());
+                        goToHome();
                     } else {
                         Toast.makeText(getContext(), "Google Sign In Failed!",
                                 Toast.LENGTH_SHORT
@@ -158,9 +151,9 @@ public class SignInOptionsFragment extends Fragment {
         Navigation.findNavController(view).navigate(action);
     }
 
-    private void goToHome(FirebaseUser user) {
+    private void goToHome() {
         NavDirections action = SignInOptionsFragmentDirections
-                .actionSignInOptionsFragmentToHomeFragment(user);
+                .actionSignInOptionsFragmentToHomeFragment();
         Navigation.findNavController(getView()).navigate(action);
     }
 

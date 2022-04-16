@@ -5,7 +5,6 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.navigation.NavAction;
 import androidx.navigation.NavDirections;
 import androidx.navigation.Navigation;
 
@@ -17,7 +16,6 @@ import android.widget.Toast;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
-import me.reimarrosas.pizzahub.R;
 import me.reimarrosas.pizzahub.databinding.FragmentEmailSigninBinding;
 import me.reimarrosas.pizzahub.helper.ValidationHelper;
 
@@ -69,7 +67,7 @@ public class EmailSignInFragment extends Fragment {
         FirebaseUser currentUser = auth.getCurrentUser();
         if (currentUser != null) {
             NavDirections action = EmailSignInFragmentDirections
-                    .actionEmailSigninFragmentToHomeFragment(currentUser);
+                    .actionEmailSigninFragmentToHomeFragment();
             Navigation.findNavController(view).navigate(action);
         }
 
@@ -107,7 +105,7 @@ public class EmailSignInFragment extends Fragment {
         auth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(getActivity(), task -> {
                     if (task.isSuccessful()) {
-                        goToHome(view, task.getResult().getUser());
+                        goToHome(view);
                     } else {
                         Toast.makeText(getContext(), "Login Failed!", Toast.LENGTH_SHORT)
                                 .show();
@@ -120,9 +118,9 @@ public class EmailSignInFragment extends Fragment {
         Navigation.findNavController(view).navigate(action);
     }
 
-    private void goToHome(View view, FirebaseUser user) {
+    private void goToHome(View view) {
         NavDirections action = EmailSignInFragmentDirections
-                .actionEmailSigninFragmentToHomeFragment(user);
+                .actionEmailSigninFragmentToHomeFragment();
         Navigation.findNavController(view).navigate(action);
     }
 

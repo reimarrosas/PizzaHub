@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/yellow"
-    tools:context=".fragments.OrderCancelledFragment">
+    tools:context=".fragments.base.OrderCancelledFragment">
 
     <LinearLayout
         android:id="@+id/linearLayoutOrderCancelledContainer"

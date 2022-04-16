@@ -1,4 +1,4 @@
-package me.reimarrosas.pizzahub.fragments;
+package me.reimarrosas.pizzahub.fragments.admin;
 
 import android.os.Bundle;
 
@@ -12,12 +12,12 @@ import me.reimarrosas.pizzahub.R;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link AddPremadePizzaFragment#newInstance} factory method to
+ * Use the {@link AdminHomeFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class AddPremadePizzaFragment extends Fragment {
+public class AdminHomeFragment extends Fragment {
 
-    public AddPremadePizzaFragment() {
+    public AdminHomeFragment() {
         // Required empty public constructor
     }
 
@@ -25,11 +25,11 @@ public class AddPremadePizzaFragment extends Fragment {
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
      *
-     * @return A new instance of fragment AddPremadePizzaFragment.
+     * @return A new instance of fragment AdminHomeFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static AddPremadePizzaFragment newInstance() {
-        AddPremadePizzaFragment fragment = new AddPremadePizzaFragment();
+    public static AdminHomeFragment newInstance() {
+        AdminHomeFragment fragment = new AdminHomeFragment();
         Bundle args = new Bundle();
         fragment.setArguments(args);
         return fragment;
@@ -46,6 +46,6 @@ public class AddPremadePizzaFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_add_premade_pizza, container, false);
+        return inflater.inflate(R.layout.fragment_admin_home, container, false);
     }
 }

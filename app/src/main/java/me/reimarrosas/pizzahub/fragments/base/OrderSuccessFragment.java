@@ -1,4 +1,4 @@
-package me.reimarrosas.pizzahub.fragments;
+package me.reimarrosas.pizzahub.fragments.base;
 
 import android.os.Bundle;
 
@@ -12,12 +12,12 @@ import me.reimarrosas.pizzahub.R;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link OrderCancelledFragment#newInstance} factory method to
+ * Use the {@link OrderSuccessFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class OrderCancelledFragment extends Fragment {
+public class OrderSuccessFragment extends Fragment {
 
-    public OrderCancelledFragment() {
+    public OrderSuccessFragment() {
         // Required empty public constructor
     }
 
@@ -25,11 +25,11 @@ public class OrderCancelledFragment extends Fragment {
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
      *
-     * @return A new instance of fragment OrderCancelledFragment.
+     * @return A new instance of fragment OrderSuccessFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static OrderCancelledFragment newInstance() {
-        OrderCancelledFragment fragment = new OrderCancelledFragment();
+    public static OrderSuccessFragment newInstance() {
+        OrderSuccessFragment fragment = new OrderSuccessFragment();
         Bundle args = new Bundle();
         fragment.setArguments(args);
         return fragment;
@@ -39,7 +39,6 @@ public class OrderCancelledFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            // Insert Parameters
         }
     }
 
@@ -47,6 +46,6 @@ public class OrderCancelledFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_order_cancelled, container, false);
+        return inflater.inflate(R.layout.fragment_order_success, container, false);
     }
 }

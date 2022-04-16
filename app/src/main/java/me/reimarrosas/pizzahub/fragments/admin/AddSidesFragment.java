@@ -1,4 +1,4 @@
-package me.reimarrosas.pizzahub.fragments;
+package me.reimarrosas.pizzahub.fragments.admin;
 
 import android.os.Bundle;
 
@@ -12,12 +12,12 @@ import me.reimarrosas.pizzahub.R;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link OrderSummaryFragment#newInstance} factory method to
+ * Use the {@link AddSidesFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class OrderSummaryFragment extends Fragment {
+public class AddSidesFragment extends Fragment {
 
-    public OrderSummaryFragment() {
+    public AddSidesFragment() {
         // Required empty public constructor
     }
 
@@ -25,11 +25,11 @@ public class OrderSummaryFragment extends Fragment {
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
      *
-     * @return A new instance of fragment OrderSummaryFragment.
+     * @return A new instance of fragment AddSidesFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static OrderSummaryFragment newInstance() {
-        OrderSummaryFragment fragment = new OrderSummaryFragment();
+    public static AddSidesFragment newInstance() {
+        AddSidesFragment fragment = new AddSidesFragment();
         Bundle args = new Bundle();
         fragment.setArguments(args);
         return fragment;
@@ -46,6 +46,6 @@ public class OrderSummaryFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_order_summary, container, false);
+        return inflater.inflate(R.layout.fragment_add_sides, container, false);
     }
 }

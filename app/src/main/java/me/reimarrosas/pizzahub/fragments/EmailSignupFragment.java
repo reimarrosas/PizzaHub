@@ -64,7 +64,7 @@ public class EmailSignupFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         FirebaseUser currentUser = auth.getCurrentUser();
         if (currentUser != null) {
-            navigateToHome(view, currentUser);
+            navigateToHome(view);
         }
 
         binding.textViewLoginLink.setOnClickListener(_view -> {
@@ -82,8 +82,9 @@ public class EmailSignupFragment extends Fragment {
         auth = null;
     }
 
-    private void navigateToHome(View view, FirebaseUser user) {
-        NavDirections action = EmailSignupFragmentDirections.actionEmailSignupFragmentToHomeFragment(user);
+    private void navigateToHome(View view) {
+        NavDirections action = EmailSignupFragmentDirections
+                .actionEmailSignupFragmentToHomeFragment();
         Navigation.findNavController(view).navigate(action);
     }
 
@@ -110,7 +111,7 @@ public class EmailSignupFragment extends Fragment {
         auth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(getActivity(), task -> {
                     if (task.isSuccessful()) {
-                        goToHome(view, task.getResult().getUser());
+                        goToHome(view);
                     } else {
                         Toast.makeText(
                                 EmailSignupFragment.this.getContext(),
@@ -121,9 +122,9 @@ public class EmailSignupFragment extends Fragment {
                 });
     }
 
-    private void goToHome(View view, FirebaseUser user) {
+    private void goToHome(View view) {
         NavDirections action = EmailSignupFragmentDirections
-                .actionEmailSignupFragmentToHomeFragment(user);
+                .actionEmailSignupFragmentToHomeFragment();
         Navigation.findNavController(view).navigate(action);
     }
 

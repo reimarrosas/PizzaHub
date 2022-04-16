@@ -5,7 +5,7 @@ import android.util.Patterns;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class ValidationHelper {
+public abstract class ValidationHelper {
 
     public enum CredentialType {SIGN_IN, SIGN_UP}
 

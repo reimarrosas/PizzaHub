@@ -1,4 +1,4 @@
-package me.reimarrosas.pizzahub.fragments;
+package me.reimarrosas.pizzahub.fragments.admin;
 
 import android.os.Bundle;
 

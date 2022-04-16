@@ -1,4 +1,4 @@
-package me.reimarrosas.pizzahub.recycleradapters;
+package me.reimarrosas.pizzahub.recycleradapters.homeadapters;
 
 import android.content.Context;
 import android.view.LayoutInflater;

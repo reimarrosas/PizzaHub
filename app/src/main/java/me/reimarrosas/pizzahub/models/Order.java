@@ -1,34 +1,42 @@
 package me.reimarrosas.pizzahub.models;
 
+import java.util.Date;
 import java.util.List;
 
-public class Pizza {
+public class Order {
 
     private Size size;
     private List<Topping> toppings;
     private List<Side> sides;
     private List<Drink> drinks;
+    private double price;
+    private Date orderDate;
+    private String userId;
 
-    public Pizza(Size size, List<Topping> toppings, List<Side> sides, List<Drink> drinks) {
+    public Order(Size size,
+                 List<Topping> toppings,
+                 List<Side> sides,
+                 List<Drink> drinks,
+                 Date orderDate,
+                 String userId) {
         this.size = size;
         this.toppings = toppings;
         this.sides = sides;
         this.drinks = drinks;
+        price = calculatePrice();
+        this.orderDate = orderDate;
+        this.userId = userId;
     }
 
-    public Pizza(Size size, Premade premade, List<Side> sides, List<Drink> drinks) {
-        this.size = size;
-        this.toppings = premade.getToppings();
-        this.sides = sides;
-        this.drinks = drinks;
-    }
-
-    public Pizza(Pizza p) {
+    public Order(Order p) {
         clearLists();
         size = new Size(p.size);
         toppings.addAll(p.toppings);
         sides.addAll(p.sides);
         drinks.addAll(p.drinks);
+        price = calculatePrice();
+        this.orderDate = p.orderDate;
+        this.userId = p.userId;
     }
 
     public Size getSize() {
@@ -45,6 +53,18 @@ public class Pizza {
 
     public List<Drink> getDrinks() {
         return drinks;
+    }
+
+    public double getPrice() {
+        return price;
+    }
+
+    public Date getOrderDate() {
+        return orderDate;
+    }
+
+    public String getUserId() {
+        return userId;
     }
 
     public double calculatePrice() {
