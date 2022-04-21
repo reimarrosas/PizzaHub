@@ -8,17 +8,6 @@
     tools:context=".fragments.base.HomeFragment">
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/floatingActionButtonHome"
-        style="@style/fab_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:contentDescription="@string/home_fab"
-        android:src="@drawable/ic_baseline_home_24"
-        app:layout_constraintBottom_toTopOf="@+id/floatingActionButtonOrder"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:tint="@color/yellow" />
-
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/floatingActionButtonOrder"
         style="@style/fab_button"
         android:layout_width="wrap_content"

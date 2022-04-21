@@ -3,6 +3,8 @@ package me.reimarrosas.pizzahub.models;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.util.Objects;
+
 public class Topping extends Extras implements Parcelable {
 
     private String type;
@@ -50,6 +52,22 @@ public class Topping extends Extras implements Parcelable {
                 "Topping={%s, %s, %s, $%.2f}",
                 getType(), getName(), getImageUrl(), getPrice()
         );
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Topping)) return false;
+        Topping topping = (Topping) o;
+        return getImageUrl().equals(topping.getImageUrl()) &&
+                getPrice() == topping.getPrice() &&
+                getName().equals(topping.getName()) &&
+                getType().equals(topping.getType());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId(), getImageUrl(), getPrice(), getName(), getType());
     }
 
     @Override

@@ -147,7 +147,6 @@ public class HomeFragment extends Fragment implements Notifiable {
         binding.floatingActionButtonHistory.show();
         binding.floatingActionButtonSave.show();
         binding.floatingActionButtonOrder.show();
-        binding.floatingActionButtonHome.show();
     }
 
     private void hideFABs() {
@@ -157,20 +156,13 @@ public class HomeFragment extends Fragment implements Notifiable {
         binding.floatingActionButtonHistory.hide();
         binding.floatingActionButtonSave.hide();
         binding.floatingActionButtonOrder.hide();
-        binding.floatingActionButtonHome.hide();
     }
 
     private void setFragmentNavigation() {
-        binding.floatingActionButtonHome.setOnClickListener(this::goToHome);
         binding.floatingActionButtonOrder.setOnClickListener(this::goToOrderCombo);
         binding.floatingActionButtonSave.setOnClickListener(this::goToOrderSave);
         binding.floatingActionButtonHistory.setOnClickListener(this::goToOrderHistory);
         binding.floatingActionButtonLogout.setOnClickListener(this::logout);
-    }
-
-    private void goToHome(View view) {
-        NavDirections action = HomeFragmentDirections.actionHomeFragmentSelf();
-        Navigation.findNavController(view).navigate(action);
     }
 
     private void goToOrderCombo(View view) {

@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -203,10 +204,10 @@ public class OrderComboFragment extends Fragment implements Notifiable {
     }
 
     private void customizeHandler(View view) {
+        List<Topping> toppings = toppingList == null ? new ArrayList<>() : toppingList;
         NavDirections action = OrderComboFragmentDirections
                 .actionOrderComboFragmentToCustomizePizzaFragment(
-                        CollectionConverters.fromListToArray(
-                                toppingList != null ? toppingList : new ArrayList<>(), Topping.class));
+                        CollectionConverters.fromListToArray(toppings, Topping.class));
         Navigation.findNavController(view).navigate(action);
     }
 
@@ -224,6 +225,8 @@ public class OrderComboFragment extends Fragment implements Notifiable {
             NavDirections action = OrderComboFragmentDirections
                     .actionOrderComboFragmentToDeliveryLocationFragment();
             Navigation.findNavController(view).navigate(action);
+        } else {
+            Toast.makeText(getContext(), "Please complete your order!", Toast.LENGTH_SHORT).show();
         }
     }
 

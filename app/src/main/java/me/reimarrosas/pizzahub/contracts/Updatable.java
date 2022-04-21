@@ -11,7 +11,6 @@ public interface Updatable<T> {
     void notifyDataListChange();
 
     default void updateDataList(List<T> data) {
-        Log.d("Updatable", "updateDataList: " + data);
         getDataList().clear();
         getDataList().addAll(data);
         notifyDataListChange();

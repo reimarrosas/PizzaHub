@@ -30,7 +30,8 @@ public class ToppingService implements Service<Topping> {
 
     @Override
     public void fetchAllData(List<Topping> data) {
-        DB.get()
+        DB.orderBy("type")
+                .get()
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
                         data.addAll(snapshotToObject(task.getResult(), Topping.class));
