@@ -26,8 +26,10 @@ import me.reimarrosas.pizzahub.contracts.Service;
 import me.reimarrosas.pizzahub.databinding.FragmentHomeBinding;
 import me.reimarrosas.pizzahub.models.Drink;
 import me.reimarrosas.pizzahub.models.MenuItem;
+import me.reimarrosas.pizzahub.models.Order;
 import me.reimarrosas.pizzahub.models.Premade;
 import me.reimarrosas.pizzahub.models.Side;
+import me.reimarrosas.pizzahub.models.Size;
 import me.reimarrosas.pizzahub.models.Topping;
 import me.reimarrosas.pizzahub.recycleradapters.homeadapters.DrinkHomeAdapter;
 import me.reimarrosas.pizzahub.recycleradapters.homeadapters.SideHomeAdapter;
@@ -80,6 +82,7 @@ public class HomeFragment extends Fragment implements Notifiable {
         super.onCreate(savedInstanceState);
 
         auth = FirebaseAuth.getInstance();
+        user = auth.getCurrentUser();
         premadeService = new PremadeService(this);
         sideService = new SideService(this);
         drinkService = new DrinkService(this);
@@ -166,8 +169,18 @@ public class HomeFragment extends Fragment implements Notifiable {
     }
 
     private void goToOrderCombo(View view) {
+        Order order = new Order(
+                new Size("small",
+                        10,
+                        9.25,
+                        getString(R.string.default_size)
+                ),
+                new ArrayList<>(),
+                new ArrayList<>(),
+                new ArrayList<>(),
+                user.getUid());
         NavDirections action = HomeFragmentDirections
-                .actionHomeFragmentToOrderComboFragment(new Topping[]{});
+                .actionHomeFragmentToOrderComboFragment(order);
         Navigation.findNavController(view).navigate(action);
     }
 

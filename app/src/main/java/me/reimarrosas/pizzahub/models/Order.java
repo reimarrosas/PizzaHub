@@ -20,14 +20,12 @@ public class Order implements Parcelable {
                  List<Topping> toppings,
                  List<Side> sides,
                  List<Drink> drinks,
-                 Date orderDate,
                  String userId) {
         this.size = size;
         this.toppings = toppings;
         this.sides = sides;
         this.drinks = drinks;
         price = calculatePrice();
-        this.orderDate = orderDate;
         this.userId = userId;
     }
 
@@ -85,6 +83,10 @@ public class Order implements Parcelable {
 
     public Date getOrderDate() {
         return orderDate;
+    }
+
+    public void setOrderDate(Date orderDate) {
+        this.orderDate = orderDate;
     }
 
     public String getUserId() {

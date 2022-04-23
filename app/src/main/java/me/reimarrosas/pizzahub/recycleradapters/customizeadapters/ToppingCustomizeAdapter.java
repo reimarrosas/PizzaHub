@@ -18,6 +18,7 @@ import me.reimarrosas.pizzahub.R;
 import me.reimarrosas.pizzahub.contracts.Notifiable;
 import me.reimarrosas.pizzahub.contracts.Updatable;
 import me.reimarrosas.pizzahub.models.MenuItem;
+import me.reimarrosas.pizzahub.models.Topping;
 import me.reimarrosas.pizzahub.recycleradapters.adapterdata.CustomizePizzaData;
 import me.reimarrosas.pizzahub.recycleradapters.viewholders.DefaultViewHolder;
 import me.reimarrosas.pizzahub.recycleradapters.viewholders.SectionHeaderViewHolder;
@@ -25,13 +26,15 @@ import me.reimarrosas.pizzahub.recycleradapters.viewholders.SectionHeaderViewHol
 public class ToppingCustomizeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements Updatable<CustomizePizzaData> {
 
     private final List<CustomizePizzaData> dataList = new ArrayList<>();
+    private final List<Topping> selectedList;
 
     private Context context;
     private Notifiable n;
 
-    public ToppingCustomizeAdapter(Context context, Notifiable n) {
+    public ToppingCustomizeAdapter(Context context, Notifiable n, List<Topping> selectedList) {
         this.context = context;
         this.n = n;
+        this.selectedList = selectedList;
     }
 
     @Override
@@ -64,13 +67,13 @@ public class ToppingCustomizeAdapter extends RecyclerView.Adapter<RecyclerView.V
                 break;
             case TOPPING:
                 DefaultViewHolder defaultViewHolder = (DefaultViewHolder) holder;
-                defaultViewHolder.setName(cpd.getTopping().getData().getName());
+                defaultViewHolder.setName(cpd.getTopping().getName());
                 Glide.with(context)
                         .asBitmap()
-                        .load(cpd.getTopping().getData().getImageUrl())
+                        .load(cpd.getTopping().getImageUrl())
                         .into(defaultViewHolder.getThumbNail());
                 defaultViewHolder.addCheckListener(checkCardHandler(defaultViewHolder, cpd));
-                if (cpd.getTopping().getState()) {
+                if (selectedList.contains(cpd.getTopping())) {
                     defaultViewHolder.updateDataCheckedState();
                 }
                 break;
@@ -80,7 +83,7 @@ public class ToppingCustomizeAdapter extends RecyclerView.Adapter<RecyclerView.V
     private View.OnClickListener checkCardHandler(DefaultViewHolder defaultViewHolder, CustomizePizzaData cpd) {
         return view -> {
             defaultViewHolder.updateDataCheckedState();
-            n.notifyUpdatedData(cpd.getTopping().getData(), MenuItem.MenuItemType.TOPPING);
+            n.notifyUpdatedData(cpd.getTopping(), MenuItem.MenuItemType.TOPPING);
         };
     }
 

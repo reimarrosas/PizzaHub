@@ -75,4 +75,5 @@
     <string name="customize">Customize</string>
     <string name="menu_button">Go to Ordering Page</string>
     <string name="finish">Finish</string>
+    <string name="default_size">https://upload.wikimedia.org/wikipedia/commons/thumb/2/2a/Small_pizzas.jpg/640px-Small_pizzas.jpg</string>
 </resources>

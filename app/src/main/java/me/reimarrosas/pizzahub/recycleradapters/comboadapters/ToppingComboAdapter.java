@@ -26,9 +26,11 @@ public class ToppingComboAdapter extends RecyclerView.Adapter<DefaultViewHolder>
     private Context context;
     private Notifiable n;
 
-    public ToppingComboAdapter(Context context, Notifiable n) {
+    public ToppingComboAdapter(Context context, Notifiable n, List<Topping> selectedList) {
         this.context = context;
         this.n = n;
+        this.toppingList.clear();
+        this.toppingList.addAll(selectedList);
     }
 
     @NonNull

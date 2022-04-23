@@ -8,12 +8,14 @@ import androidx.fragment.app.Fragment;
 import androidx.navigation.NavDirections;
 import androidx.navigation.Navigation;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import me.reimarrosas.pizzahub.R;
 import me.reimarrosas.pizzahub.databinding.FragmentDeliveryLocationBinding;
+import me.reimarrosas.pizzahub.models.Order;
 import me.reimarrosas.pizzahub.models.Topping;
 
 /**
@@ -24,6 +26,8 @@ import me.reimarrosas.pizzahub.models.Topping;
 public class DeliveryLocationFragment extends Fragment {
 
     private FragmentDeliveryLocationBinding binding;
+
+    private Order order;
 
     public DeliveryLocationFragment() {
         // Required empty public constructor
@@ -59,12 +63,19 @@ public class DeliveryLocationFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        setupArgs();
+        Log.d("DeliveryLocationFrag", "onViewCreated: " + order);
+
         binding.buttonCancelDelivery.setOnClickListener(this::goToOrderCombo);
+    }
+
+    private void setupArgs() {
+        order = DeliveryLocationFragmentArgs.fromBundle(getArguments()).getOrder();
     }
 
     private void goToOrderCombo(View view) {
         NavDirections action = DeliveryLocationFragmentDirections
-                .actionDeliveryLocationFragmentToOrderComboFragment(new Topping[]{});
+                .actionDeliveryLocationFragmentToOrderComboFragment(order);
         Navigation.findNavController(view).navigate(action);
     }
 

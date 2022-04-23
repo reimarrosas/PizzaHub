@@ -23,13 +23,16 @@ import me.reimarrosas.pizzahub.recycleradapters.viewholders.DefaultViewHolder;
 public class DrinkComboAdapter extends RecyclerView.Adapter<DefaultViewHolder> implements Updatable<Drink> {
 
     private final List<Drink> drinkList = new ArrayList<>();
+    private final List<Drink> selectedList = new ArrayList<>();
 
     private Context context;
     private Notifiable n;
 
-    public DrinkComboAdapter(Context context, Notifiable n) {
+    public DrinkComboAdapter(Context context, Notifiable n, List<Drink> selectedList) {
         this.context = context;
         this.n = n;
+        this.selectedList.clear();
+        this.selectedList.addAll(selectedList);
     }
 
     @NonNull
@@ -50,6 +53,9 @@ public class DrinkComboAdapter extends RecyclerView.Adapter<DefaultViewHolder> i
                 .asBitmap()
                 .load(d.getImageUrl())
                 .into(holder.getThumbNail());
+        if(selectedList.contains(d)) {
+            holder.updateDataCheckedState();
+        }
         holder.addCheckListener(checkCardHandler(holder, d));
     }
 

@@ -98,9 +98,6 @@ public class OrderComboFragment extends Fragment implements Notifiable {
         premadeService = new PremadeService(this);
         sideService = new SideService(this);
         drinkService = new DrinkService(this);
-
-        selectedSideList = new ArrayList<>();
-        selectedDrinkList = new ArrayList<>();
     }
 
     @Override
@@ -114,9 +111,9 @@ public class OrderComboFragment extends Fragment implements Notifiable {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        setupArgs();
         setupRecyclerView();
         fetchData();
-        setupArgs();
 
         binding.buttonComboCustomize.setOnClickListener(this::customizeHandler);
         binding.buttonComboContinue.setOnClickListener(this::continueHandler);
@@ -134,7 +131,7 @@ public class OrderComboFragment extends Fragment implements Notifiable {
                 premadeAdapter.updateDataList((List<Premade>) items);
                 break;
             case TOPPING:
-                toppingList = (List<Topping>) items;
+                setList((List<Topping>) items, toppingList);
                 toppingListAdapter.updateDataList(toppingList);
                 break;
             case SIDE:
@@ -150,7 +147,7 @@ public class OrderComboFragment extends Fragment implements Notifiable {
     public <T extends MenuItem> void notifyUpdatedData(@NonNull T item, MenuItem.MenuItemType type) {
         switch (type) {
             case SIZE:
-                size = (Size) item;
+                setSize((Size) item);
                 break;
             case SIDE:
                 addOrRemoveFromList(selectedSideList, (Side) item);
@@ -162,7 +159,7 @@ public class OrderComboFragment extends Fragment implements Notifiable {
     }
 
     private void setupRecyclerView() {
-        sizeAdapter = new SizeComboAdapter(getContext(), this);
+        sizeAdapter = new SizeComboAdapter(getContext(), this, size);
         binding.recyclerViewComboSize.setAdapter(sizeAdapter);
         binding.recyclerViewComboSize
                 .setLayoutManager(new GridLayoutManager(getContext(), 2));
@@ -172,17 +169,17 @@ public class OrderComboFragment extends Fragment implements Notifiable {
         binding.recyclerViewComboPremade
                 .setLayoutManager(new GridLayoutManager(getContext(), 2));
 
-        toppingListAdapter = new ToppingComboAdapter(getContext(), this);
+        toppingListAdapter = new ToppingComboAdapter(getContext(), this, toppingList);
         binding.recyclerViewComboToppings.setAdapter(toppingListAdapter);
         binding.recyclerViewComboToppings
                 .setLayoutManager(new GridLayoutManager(getContext(), 2));
 
-        sideAdapter = new SideComboAdapter(getContext(), this);
+        sideAdapter = new SideComboAdapter(getContext(), this, selectedSideList);
         binding.recyclerViewComboSides.setAdapter(sideAdapter);
         binding.recyclerViewComboSides
                 .setLayoutManager(new GridLayoutManager(getContext(), 2));
 
-        drinkAdapter = new DrinkComboAdapter(getContext(), this);
+        drinkAdapter = new DrinkComboAdapter(getContext(), this, selectedDrinkList);
         binding.recyclerViewComboDrinks.setAdapter(drinkAdapter);
         binding.recyclerViewComboDrinks
                 .setLayoutManager(new GridLayoutManager(getContext(), 2));
@@ -196,34 +193,25 @@ public class OrderComboFragment extends Fragment implements Notifiable {
     }
 
     private void setupArgs() {
-        Topping[] toppings = OrderComboFragmentArgs.fromBundle(getArguments()).getToppingList();
-        if (toppings.length != 0) {
-            toppingList = CollectionConverters.fromArrayToList(toppings);
-            toppingListAdapter.updateDataList(toppingList);
-        }
+        order = OrderComboFragmentArgs.fromBundle(getArguments()).getOrder();
+        size = order.getSize();
+        toppingList = order.getToppings();
+        selectedSideList = order.getSides();
+        selectedDrinkList = order.getDrinks();
     }
 
     private void customizeHandler(View view) {
-        List<Topping> toppings = toppingList == null ? new ArrayList<>() : toppingList;
         NavDirections action = OrderComboFragmentDirections
-                .actionOrderComboFragmentToCustomizePizzaFragment(
-                        CollectionConverters.fromListToArray(toppings, Topping.class));
+                .actionOrderComboFragmentToCustomizePizzaFragment(order);
         Navigation.findNavController(view).navigate(action);
     }
 
     private void continueHandler(View view) {
-        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
-        if (size != null && toppingList != null && toppingList.size() != 0) {
-            order = new Order(
-                    size,
-                    toppingList,
-                    selectedSideList,
-                    selectedDrinkList,
-                    new Date(System.currentTimeMillis()),
-                    currentUser.getUid());
+        if (size != null && toppingList.size() != 0) {
+            order.setOrderDate(new Date(System.currentTimeMillis()));
 
             NavDirections action = OrderComboFragmentDirections
-                    .actionOrderComboFragmentToDeliveryLocationFragment();
+                    .actionOrderComboFragmentToDeliveryLocationFragment(order);
             Navigation.findNavController(view).navigate(action);
         } else {
             Toast.makeText(getContext(), "Please complete your order!", Toast.LENGTH_SHORT).show();
@@ -246,6 +234,19 @@ public class OrderComboFragment extends Fragment implements Notifiable {
         } else {
             list.add(item);
         }
+    }
+
+    private void setSize(Size s) {
+        size.setId(s.getId());
+        size.setName(s.getName());
+        size.setSize(s.getSize());
+        size.setPrice(s.getPrice());
+        size.setImageUrl(s.getImageUrl());
+    }
+
+    private <T extends MenuItem> void setList(List<T> source, List<T> destination) {
+        destination.clear();
+        destination.addAll(source);
     }
 
 }

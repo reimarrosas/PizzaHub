@@ -115,15 +115,15 @@
         <action
             android:id="@+id/action_orderComboFragment_to_customizePizzaFragment"
             app:destination="@id/customizePizzaFragment" />
-        <argument
-            android:name="toppingList"
-            app:argType="me.reimarrosas.pizzahub.models.Topping[]" />
         <action
             android:id="@+id/action_orderComboFragment_to_homeFragment"
             app:destination="@id/homeFragment" />
         <action
             android:id="@+id/action_orderComboFragment_to_deliveryLocationFragment"
             app:destination="@id/deliveryLocationFragment" />
+        <argument
+            android:name="order"
+            app:argType="me.reimarrosas.pizzahub.models.Order" />
     </fragment>
     <fragment
         android:id="@+id/customizePizzaFragment"
@@ -134,8 +134,8 @@
             android:id="@+id/action_customizePizzaFragment_to_orderComboFragment"
             app:destination="@id/orderComboFragment" />
         <argument
-            android:name="toppingList"
-            app:argType="me.reimarrosas.pizzahub.models.Topping[]" />
+            android:name="order"
+            app:argType="me.reimarrosas.pizzahub.models.Order" />
     </fragment>
     <fragment
         android:id="@+id/deliveryLocationFragment"
@@ -145,5 +145,8 @@
         <action
             android:id="@+id/action_deliveryLocationFragment_to_orderComboFragment"
             app:destination="@id/orderComboFragment" />
+        <argument
+            android:name="order"
+            app:argType="me.reimarrosas.pizzahub.models.Order" />
     </fragment>
 </navigation>

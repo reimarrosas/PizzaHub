@@ -23,13 +23,16 @@ import me.reimarrosas.pizzahub.recycleradapters.viewholders.DefaultViewHolder;
 public class SideComboAdapter extends RecyclerView.Adapter<DefaultViewHolder> implements Updatable<Side> {
 
     private final List<Side> sideList = new ArrayList<>();
+    private final List<Side> selectedList = new ArrayList<>();
 
     private Context context;
     private Notifiable n;
 
-    public SideComboAdapter(Context context, Notifiable n) {
+    public SideComboAdapter(Context context, Notifiable n, List<Side> selectedList) {
         this.context = context;
         this.n = n;
+        this.selectedList.clear();
+        this.selectedList.addAll(selectedList);
     }
 
     @NonNull
@@ -50,6 +53,9 @@ public class SideComboAdapter extends RecyclerView.Adapter<DefaultViewHolder> im
                 .asBitmap()
                 .load(s.getImageUrl())
                 .into(holder.getThumbNail());
+        if (selectedList.contains(s)) {
+            holder.updateDataCheckedState();
+        }
         holder.addCheckListener(checkCardHandler(holder, s));
     }
 

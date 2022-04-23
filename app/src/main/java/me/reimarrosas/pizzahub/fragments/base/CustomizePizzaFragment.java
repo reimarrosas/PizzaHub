@@ -9,7 +9,6 @@ import androidx.navigation.NavDirections;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.GridLayoutManager;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,14 +18,12 @@ import java.util.List;
 
 import me.reimarrosas.pizzahub.R;
 import me.reimarrosas.pizzahub.contracts.Notifiable;
-import me.reimarrosas.pizzahub.contracts.Reproducible;
 import me.reimarrosas.pizzahub.contracts.Service;
 import me.reimarrosas.pizzahub.databinding.FragmentCustomizePizzaBinding;
-import me.reimarrosas.pizzahub.helper.CollectionConverters;
 import me.reimarrosas.pizzahub.models.MenuItem;
+import me.reimarrosas.pizzahub.models.Order;
 import me.reimarrosas.pizzahub.models.Topping;
 import me.reimarrosas.pizzahub.recycleradapters.adapterdata.CustomizePizzaData;
-import me.reimarrosas.pizzahub.recycleradapters.adapterdata.ReproducibleTopping;
 import me.reimarrosas.pizzahub.recycleradapters.customizeadapters.ToppingCustomizeAdapter;
 import me.reimarrosas.pizzahub.recycleradapters.adapterdata.CustomizePizzaData.DataType;
 import me.reimarrosas.pizzahub.services.ToppingService;
@@ -40,7 +37,7 @@ public class CustomizePizzaFragment extends Fragment implements Notifiable {
 
     private FragmentCustomizePizzaBinding binding;
 
-    private List<Topping> selectedToppingList;
+    private Order order;
     private List<Topping> defaultToppingList;
 
     private ToppingCustomizeAdapter toppingAdapter;
@@ -82,8 +79,8 @@ public class CustomizePizzaFragment extends Fragment implements Notifiable {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        setupRecyclerViews();
         setupArgs();
+        setupRecyclerViews();
         fetchData();
 
         binding.buttonCustomizePizzaCancel.setOnClickListener(this::buttonHandler);
@@ -103,7 +100,7 @@ public class CustomizePizzaFragment extends Fragment implements Notifiable {
     public <T extends MenuItem> void notifyUpdatedData(@NonNull T item, MenuItem.MenuItemType type) {
         switch (type) {
             case TOPPING:
-                addOrRemoveFromList(selectedToppingList, (Topping) item);
+                addOrRemoveFromList(order.getToppings(), (Topping) item);
                 break;
         }
     }
@@ -114,7 +111,7 @@ public class CustomizePizzaFragment extends Fragment implements Notifiable {
         int onePerRow = spanCount / 1;
         int twoPerRow = spanCount / 2;
 
-        toppingAdapter = new ToppingCustomizeAdapter(getContext(), this);
+        toppingAdapter = new ToppingCustomizeAdapter(getContext(), this, order.getToppings());
         binding.recyclerViewCustomize.setAdapter(toppingAdapter);
         GridLayoutManager layoutManager = new GridLayoutManager(getContext(), spanCount);
         layoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
@@ -130,10 +127,10 @@ public class CustomizePizzaFragment extends Fragment implements Notifiable {
     }
 
     private void setupArgs() {
-        selectedToppingList = CollectionConverters
-                .fromArrayToList(
-                        CustomizePizzaFragmentArgs.fromBundle(getArguments()).getToppingList());
-        defaultToppingList = new ArrayList<>(selectedToppingList);
+        order = CustomizePizzaFragmentArgs
+                .fromBundle(getArguments())
+                .getOrder();
+        defaultToppingList = new ArrayList<>(order.getToppings());
     }
 
     private void fetchData() {
@@ -141,17 +138,13 @@ public class CustomizePizzaFragment extends Fragment implements Notifiable {
     }
 
     private void buttonHandler(View view) {
-        List<Topping> toppingList;
-
         if (view.getId() == R.id.buttonCustomizePizzaCancel) {
-            toppingList = defaultToppingList;
-        } else {
-            toppingList = selectedToppingList;
+            order.getToppings().clear();
+            order.getToppings().addAll(defaultToppingList);
         }
 
         NavDirections action = CustomizePizzaFragmentDirections
-                .actionCustomizePizzaFragmentToOrderComboFragment(
-                        CollectionConverters.fromListToArray(toppingList, Topping.class));
+                .actionCustomizePizzaFragmentToOrderComboFragment(order);
         Navigation.findNavController(view).navigate(action);
     }
 
@@ -164,8 +157,7 @@ public class CustomizePizzaFragment extends Fragment implements Notifiable {
                 currentType = t.getType();
                 res.add(new CustomizePizzaData(DataType.HEADER, null, t.getType()));
             }
-            Reproducible<Topping> r = new ReproducibleTopping(t, selectedToppingList.contains(t));
-            res.add(new CustomizePizzaData(DataType.TOPPING, r, null));
+            res.add(new CustomizePizzaData(DataType.TOPPING, t, null));
         }
 
         return res;

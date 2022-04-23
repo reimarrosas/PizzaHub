@@ -24,15 +24,17 @@ import me.reimarrosas.pizzahub.recycleradapters.viewholders.DefaultViewHolder;
 public class SizeComboAdapter extends RecyclerView.Adapter<DefaultViewHolder> implements Updatable<Size> {
 
     private final List<Size> sizeList = new ArrayList<>();
+    private final Size selected;
 
     private Checkable previousClicked;
     private Context context;
     private Notifiable n;
 
-    public SizeComboAdapter(Context context, Notifiable n) {
+    public SizeComboAdapter(Context context, Notifiable n, Size selected) {
         this.context = context;
         this.previousClicked = null;
         this.n = n;
+        this.selected = selected;
     }
 
     @NonNull
@@ -47,17 +49,15 @@ public class SizeComboAdapter extends RecyclerView.Adapter<DefaultViewHolder> im
     public void onBindViewHolder(@NonNull DefaultViewHolder holder, int position) {
         Size s = sizeList.get(position);
 
-        if (s.getName().equalsIgnoreCase("small")) {
-            previousClicked = holder;
-            holder.updateDataCheckedState();
-            n.notifyUpdatedData(s, MenuItem.MenuItemType.SIZE);
-        }
-
         holder.setName(s.getName());
         Glide.with(context)
                 .asBitmap()
                 .load(s.getImageUrl())
                 .into(holder.getThumbNail());
+        if (selected.equals(s)) {
+            holder.updateDataCheckedState();
+            previousClicked = holder;
+        }
         holder.addCheckListener(checkCardHandler(holder, s));
     }
 
