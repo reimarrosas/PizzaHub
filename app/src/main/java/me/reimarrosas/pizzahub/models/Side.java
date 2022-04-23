@@ -1,8 +1,12 @@
 package me.reimarrosas.pizzahub.models;
 
-import androidx.annotation.NonNull;
+import android.os.Parcel;
+import android.os.Parcelable;
 
-public class Side extends Extras {
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
+public class Side extends Extras implements Parcelable {
 
     public Side() {
     }
@@ -16,6 +20,36 @@ public class Side extends Extras {
     }
 
     @Override
+    public boolean equals(@Nullable Object obj) {
+        if (this == obj) return true;
+        if (!(obj instanceof Side)) return false;
+        Side s = (Side) obj;
+        return getName().equals(s.getName()) &&
+                getImageUrl().equals(s.getImageUrl()) &&
+                getPrice() == s.getPrice();
+    }
+
+    @Override
+    public int hashCode() {
+        return super.hashCode();
+    }
+
+    protected Side(Parcel in) {
+    }
+
+    public static final Creator<Side> CREATOR = new Creator<Side>() {
+        @Override
+        public Side createFromParcel(Parcel in) {
+            return new Side(in);
+        }
+
+        @Override
+        public Side[] newArray(int size) {
+            return new Side[size];
+        }
+    };
+
+    @Override
     public String toString() {
         return String.format(
                 "Side={%s, %s, $%.2f}",
@@ -23,4 +57,15 @@ public class Side extends Extras {
         );
     }
 
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeString(getName());
+        parcel.writeString(getImageUrl());
+        parcel.writeDouble(getPrice());
+    }
 }

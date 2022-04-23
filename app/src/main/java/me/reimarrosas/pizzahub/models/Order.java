@@ -1,9 +1,12 @@
 package me.reimarrosas.pizzahub.models;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.util.Date;
 import java.util.List;
 
-public class Order {
+public class Order implements Parcelable {
 
     private Size size;
     private List<Topping> toppings;
@@ -38,6 +41,27 @@ public class Order {
         this.orderDate = p.orderDate;
         this.userId = p.userId;
     }
+
+    protected Order(Parcel in) {
+        size = in.readParcelable(Size.class.getClassLoader());
+        toppings = in.createTypedArrayList(Topping.CREATOR);
+        sides = in.createTypedArrayList(Side.CREATOR);
+        drinks = in.createTypedArrayList(Drink.CREATOR);
+        price = in.readDouble();
+        userId = in.readString();
+    }
+
+    public static final Creator<Order> CREATOR = new Creator<Order>() {
+        @Override
+        public Order createFromParcel(Parcel in) {
+            return new Order(in);
+        }
+
+        @Override
+        public Order[] newArray(int size) {
+            return new Order[size];
+        }
+    };
 
     public Size getSize() {
         return size;
@@ -109,6 +133,30 @@ public class Order {
         toppings.clear();
         sides.clear();
         drinks.clear();
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeDouble(getPrice());
+        parcel.writeString(getUserId());
+    }
+
+    @Override
+    public String toString() {
+        return "Order{" +
+                "size=" + size +
+                ", toppings=" + toppings +
+                ", sides=" + sides +
+                ", drinks=" + drinks +
+                ", price=" + price +
+                ", orderDate=" + orderDate +
+                ", userId='" + userId + '\'' +
+                '}';
     }
 
 }

@@ -1,6 +1,11 @@
 package me.reimarrosas.pizzahub.models;
 
-public class Size extends Extras {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import java.util.Objects;
+
+public class Size extends Extras implements Parcelable {
 
     private int size;
 
@@ -16,6 +21,38 @@ public class Size extends Extras {
         super(s.getName(), s.getImageUrl(), s.getPrice());
         this.size = s.size;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Size)) return false;
+        Size s = (Size) o;
+        return getName().equals(s.getName()) &&
+                getImageUrl().equals(s.getImageUrl()) &&
+                getSize() == s.getSize() &&
+                getPrice() == s.getPrice();
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getName(), getImageUrl(), getSize(), getPrice());
+    }
+
+    protected Size(Parcel in) {
+        size = in.readInt();
+    }
+
+    public static final Creator<Size> CREATOR = new Creator<Size>() {
+        @Override
+        public Size createFromParcel(Parcel in) {
+            return new Size(in);
+        }
+
+        @Override
+        public Size[] newArray(int size) {
+            return new Size[size];
+        }
+    };
 
     public void setSize(int size) {
         this.size = size;
@@ -33,4 +70,16 @@ public class Size extends Extras {
         );
     }
 
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeString(getName());
+        parcel.writeInt(getSize());
+        parcel.writeDouble(getPrice());
+        parcel.writeString(getImageUrl());
+    }
 }
