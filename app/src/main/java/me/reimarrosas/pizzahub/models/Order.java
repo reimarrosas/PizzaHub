@@ -3,6 +3,7 @@ package me.reimarrosas.pizzahub.models;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
@@ -15,6 +16,25 @@ public class Order implements Parcelable {
     private double price;
     private Date orderDate;
     private String userId;
+    private DeliveryAddress address;
+
+    public Order(Size size,
+                 List<Topping> toppings,
+                 List<Side> sides,
+                 List<Drink> drinks,
+                 double price,
+                 Date orderDate,
+                 String userId,
+                 DeliveryAddress address) {
+        this.size = size;
+        this.toppings = toppings;
+        this.sides = sides;
+        this.drinks = drinks;
+        this.price = price;
+        this.orderDate = orderDate;
+        this.userId = userId;
+        this.address = address;
+    }
 
     public Order(Size size,
                  List<Topping> toppings,
@@ -25,7 +45,6 @@ public class Order implements Parcelable {
         this.toppings = toppings;
         this.sides = sides;
         this.drinks = drinks;
-        price = calculatePrice();
         this.userId = userId;
     }
 
@@ -35,7 +54,6 @@ public class Order implements Parcelable {
         toppings.addAll(p.toppings);
         sides.addAll(p.sides);
         drinks.addAll(p.drinks);
-        price = calculatePrice();
         this.orderDate = p.orderDate;
         this.userId = p.userId;
     }
@@ -93,41 +111,70 @@ public class Order implements Parcelable {
         return userId;
     }
 
-    public double calculatePrice() {
-        return size.getPrice() +
-                getTotalToppingPrice() +
-                getTotalDrinkPrice() +
-                getTotalSidePrice();
+    private BigDecimal calculateNetPrice() {
+        return calculateTaxablePrice()
+                .add(calculateQuebecTax())
+                .add(calculateFederalTax())
+                .add(BigDecimal.valueOf(2.99));
     }
 
-    private double getTotalDrinkPrice() {
-        double totalPrice = 0.0f;
+    private BigDecimal calculateFederalTax() {
+        return calculateTaxablePrice()
+                .multiply(BigDecimal.valueOf(0.05));
+    }
+
+    private BigDecimal calculateQuebecTax() {
+        return calculateTaxablePrice()
+                .multiply(BigDecimal.valueOf(0.09975));
+    }
+
+    private BigDecimal calculateTaxablePrice() {
+        return BigDecimal.valueOf(size.getPrice())
+                .add(getTotalToppingPrice())
+                .add(getTotalSidePrice())
+                .add(getTotalDrinkPrice());
+    }
+
+    private BigDecimal getTotalDrinkPrice() {
+        BigDecimal total = BigDecimal.ZERO;
 
         for (Drink d : drinks) {
-            totalPrice += d.getPrice();
+            total = total.add(BigDecimal.valueOf(d.getPrice()));
         }
 
-        return totalPrice;
+        return total;
     }
 
-    private double getTotalSidePrice() {
-        double totalPrice = 0.0f;
+    private BigDecimal getTotalSidePrice() {
+        BigDecimal total = BigDecimal.ZERO;
 
         for (Side s : sides) {
-            totalPrice += s.getPrice();
+            total = total.add(BigDecimal.valueOf(s.getPrice()));
         }
 
-        return totalPrice;
+        return total;
     }
 
-    private double getTotalToppingPrice() {
-        double totalPrice = 0.0f;
+    private BigDecimal getTotalToppingPrice() {
+        BigDecimal total = BigDecimal.ZERO;
 
         for (Topping t : toppings) {
-            totalPrice += t.getPrice();
+            total = total.add(BigDecimal.valueOf(t.getPrice()));
         }
 
-        return totalPrice;
+        return total;
+    }
+
+    public DeliveryAddress getAddress() {
+        return address;
+    }
+
+    public void setAddress(DeliveryAddress address) {
+        this.address = address;
+    }
+
+    public void recalculatePrice() {
+        this.price = calculateNetPrice().doubleValue();
     }
 
     private void clearLists() {
@@ -158,7 +205,7 @@ public class Order implements Parcelable {
                 ", price=" + price +
                 ", orderDate=" + orderDate +
                 ", userId='" + userId + '\'' +
+                ", address=" + address +
                 '}';
     }
-
 }

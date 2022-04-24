@@ -14,45 +14,71 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:text="Order Summary"
+        android:text="@string/order_summary"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerView3"
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/nestedScrollView3"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:layout_marginTop="8dp"
+        android:fillViewport="true"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textViewOrderSummaryTitle" />
+        app:layout_constraintTop_toBottomOf="@+id/textViewOrderSummaryTitle"
+        tools:ignore="SpeakableTextPresentCheck">
 
-    <Button
-        android:id="@+id/buttonOrderSummaryOrder"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="64dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="64dp"
-        android:text="Order"
-        android:textSize="16sp"
-        android:letterSpacing="0.2"
-        android:textColor="@color/yellow"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/recyclerView3" />
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
-    <Button
-        android:id="@+id/buttonOrderSummaryCancel"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="@string/cancel_button"
-        android:textSize="16sp"
-        android:letterSpacing="0.2"
-        android:backgroundTint="@color/blue"
-        app:layout_constraintEnd_toEndOf="@+id/buttonOrderSummaryOrder"
-        app:layout_constraintStart_toStartOf="@+id/buttonOrderSummaryOrder"
-        app:layout_constraintTop_toBottomOf="@+id/buttonOrderSummaryOrder" />
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerViewOrderDetails"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <Button
+                android:id="@+id/buttonOrderSummaryCancel"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:backgroundTint="@color/blue"
+                android:letterSpacing="0.2"
+                android:text="@string/cancel_button"
+                android:textSize="16sp"
+                app:layout_constraintEnd_toEndOf="@+id/buttonOrderSummaryOrder"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toStartOf="@+id/buttonOrderSummaryOrder"
+                app:layout_constraintTop_toBottomOf="@+id/buttonOrderSummaryOrder"
+                tools:ignore="TextContrastCheck" />
+
+            <Button
+                android:id="@+id/buttonOrderSummaryOrder"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="64dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="64dp"
+                android:letterSpacing="0.2"
+                android:text="@string/order"
+                android:textColor="@color/yellow"
+                android:textSize="16sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/recyclerViewOrderDetails"
+                tools:ignore="TextContrastCheck" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.core.widget.NestedScrollView>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

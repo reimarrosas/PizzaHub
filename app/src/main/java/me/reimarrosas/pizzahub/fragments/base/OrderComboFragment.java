@@ -209,6 +209,7 @@ public class OrderComboFragment extends Fragment implements Notifiable {
     private void continueHandler(View view) {
         if (size != null && toppingList.size() != 0) {
             order.setOrderDate(new Date(System.currentTimeMillis()));
+            order.recalculatePrice();
 
             NavDirections action = OrderComboFragmentDirections
                     .actionOrderComboFragmentToDeliveryLocationFragment(order);

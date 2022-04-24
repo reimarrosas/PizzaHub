@@ -148,5 +148,37 @@
         <argument
             android:name="order"
             app:argType="me.reimarrosas.pizzahub.models.Order" />
+        <action
+            android:id="@+id/action_deliveryLocationFragment_to_orderSummaryFragment"
+            app:destination="@id/orderSummaryFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/orderSummaryFragment"
+        android:name="me.reimarrosas.pizzahub.fragments.base.OrderSummaryFragment"
+        android:label="fragment_order_summary"
+        tools:layout="@layout/fragment_order_summary" >
+        <argument
+            android:name="order"
+            app:argType="me.reimarrosas.pizzahub.models.Order" />
+        <action
+            android:id="@+id/action_orderSummaryFragment_to_orderSuccessFragment"
+            app:destination="@id/orderSuccessFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/orderSuccessFragment"
+        android:name="me.reimarrosas.pizzahub.fragments.base.OrderSuccessFragment"
+        android:label="fragment_order_success"
+        tools:layout="@layout/fragment_order_success" >
+        <argument
+            android:name="orderId"
+            app:argType="string" />
+        <argument
+            android:name="totalPrice"
+            app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/orderCancelledFragment"
+        android:name="me.reimarrosas.pizzahub.fragments.base.OrderCancelledFragment"
+        android:label="fragment_order_cancelled"
+        tools:layout="@layout/fragment_order_cancelled" />
 </navigation>

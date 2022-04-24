@@ -5,6 +5,8 @@ import android.util.Patterns;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import me.reimarrosas.pizzahub.models.DeliveryAddress;
+
 public abstract class ValidationHelper {
 
     public enum CredentialType {SIGN_IN, SIGN_UP}
@@ -46,6 +48,15 @@ public abstract class ValidationHelper {
     private static boolean isVerifyPasswordValid(String inputPassword, String inputVerifyPassword) {
         return inputPassword != null
                 && inputPassword.equals(inputVerifyPassword);
+    }
+
+    public static boolean isAddressValid(DeliveryAddress address) {
+        return !"".equals(address.getName().trim()) &&
+                !"".equals(address.getAddress1().trim()) &&
+                !"".equals(address.getAddress2().trim()) &&
+                !"".equals(address.getCity().trim()) &&
+                !"".equals(address.getProvince().trim()) &&
+                !"".equals(address.getPostalCode().trim());
     }
 
 }

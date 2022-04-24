@@ -12,9 +12,12 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import me.reimarrosas.pizzahub.R;
 import me.reimarrosas.pizzahub.databinding.FragmentDeliveryLocationBinding;
+import me.reimarrosas.pizzahub.helper.ValidationHelper;
+import me.reimarrosas.pizzahub.models.DeliveryAddress;
 import me.reimarrosas.pizzahub.models.Order;
 import me.reimarrosas.pizzahub.models.Topping;
 
@@ -27,7 +30,9 @@ public class DeliveryLocationFragment extends Fragment {
 
     private FragmentDeliveryLocationBinding binding;
 
+
     private Order order;
+    private DeliveryAddress address;
 
     public DeliveryLocationFragment() {
         // Required empty public constructor
@@ -50,6 +55,8 @@ public class DeliveryLocationFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        address = new DeliveryAddress();
     }
 
     @Override
@@ -64,19 +71,39 @@ public class DeliveryLocationFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         setupArgs();
-        Log.d("DeliveryLocationFrag", "onViewCreated: " + order);
 
+        binding.buttonContinueDelivery.setOnClickListener(this::goToPayment);
         binding.buttonCancelDelivery.setOnClickListener(this::goToOrderCombo);
     }
 
     private void setupArgs() {
         order = DeliveryLocationFragmentArgs.fromBundle(getArguments()).getOrder();
+        order.setAddress(address);
     }
 
     private void goToOrderCombo(View view) {
         NavDirections action = DeliveryLocationFragmentDirections
                 .actionDeliveryLocationFragmentToOrderComboFragment(order);
         Navigation.findNavController(view).navigate(action);
+    }
+
+    private void goToPayment(View view) {
+        address.setName(binding.editTextName.getText().toString());
+        address.setAddress1(binding.editTextAddress1.getText().toString());
+        address.setAddress2(binding.editTextAddress2.getText().toString());
+        address.setCity(binding.editTextCity.getText().toString());
+        address.setProvince(binding.editTextProvince.getText().toString());
+        address.setPostalCode(binding.editTextPostalCode.getText().toString());
+        
+        if (ValidationHelper.isAddressValid(address)) {
+            Log.d("DeliveryLocationFrag", "goToPayment: " + order);
+            // Go to Payment
+            NavDirections action = DeliveryLocationFragmentDirections
+                    .actionDeliveryLocationFragmentToOrderSummaryFragment(order);
+            Navigation.findNavController(view).navigate(action);
+        } else {
+            Toast.makeText(getContext(), "Address Invalid!", Toast.LENGTH_SHORT).show();
+        }
     }
 
 }

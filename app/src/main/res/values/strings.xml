@@ -76,4 +76,8 @@
     <string name="menu_button">Go to Ordering Page</string>
     <string name="finish">Finish</string>
     <string name="default_size">https://upload.wikimedia.org/wikipedia/commons/thumb/2/2a/Small_pizzas.jpg/640px-Small_pizzas.jpg</string>
+    <string name="paypal_id">AURHheWr8UlBDOL63Sh6Qb1z6S3RkiM2kvXWXIFXkirLm1NPkHVDfnm5Hyj38cRT40vWJRc3m_jLCvq7</string>
+    <string name="order_summary">Order Summary</string>
+    <string name="order">Order</string>
+    <string name="payment_api_string">https://pizzahub-payment.herokuapp.com/</string>
 </resources>
