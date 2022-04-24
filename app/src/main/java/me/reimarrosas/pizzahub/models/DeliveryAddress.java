@@ -1,6 +1,9 @@
 package me.reimarrosas.pizzahub.models;
 
-public class DeliveryAddress {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+public class DeliveryAddress implements Parcelable {
 
     private String name;
     private String address1;
@@ -11,6 +14,27 @@ public class DeliveryAddress {
 
     public DeliveryAddress() {
     }
+
+    protected DeliveryAddress(Parcel in) {
+        name = in.readString();
+        address1 = in.readString();
+        address2 = in.readString();
+        city = in.readString();
+        province = in.readString();
+        postalCode = in.readString();
+    }
+
+    public static final Creator<DeliveryAddress> CREATOR = new Creator<DeliveryAddress>() {
+        @Override
+        public DeliveryAddress createFromParcel(Parcel in) {
+            return new DeliveryAddress(in);
+        }
+
+        @Override
+        public DeliveryAddress[] newArray(int size) {
+            return new DeliveryAddress[size];
+        }
+    };
 
     public String getName() {
         return name;
@@ -70,5 +94,20 @@ public class DeliveryAddress {
                 ", province='" + province + '\'' +
                 ", postalCode='" + postalCode + '\'' +
                 '}';
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeString(name);
+        parcel.writeString(address1);
+        parcel.writeString(address2);
+        parcel.writeString(city);
+        parcel.writeString(province);
+        parcel.writeString(postalCode);
     }
 }

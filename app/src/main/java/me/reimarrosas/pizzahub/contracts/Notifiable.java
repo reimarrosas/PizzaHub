@@ -12,4 +12,6 @@ public interface Notifiable {
 
     <T extends MenuItem> void notifyUpdatedData(@NonNull T item, MenuItem.MenuItemType type);
 
+    void notifyOperationSuccess(Throwable t);
+
 }

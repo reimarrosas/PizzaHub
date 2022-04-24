@@ -1,5 +1,7 @@
 package me.reimarrosas.pizzahub.models;
 
+import com.google.firebase.firestore.Exclude;
+
 public abstract class MenuItem {
 
     private String id;
@@ -15,6 +17,7 @@ public abstract class MenuItem {
         this.imageUrl = imageUrl;
     }
 
+    @Exclude
     public String getId() {
         return id;
     }

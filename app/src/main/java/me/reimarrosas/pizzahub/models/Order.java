@@ -3,12 +3,15 @@ package me.reimarrosas.pizzahub.models;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.google.firebase.firestore.Exclude;
+
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
 public class Order implements Parcelable {
 
+    private String id;
     private Size size;
     private List<Topping> toppings;
     private List<Side> sides;
@@ -17,6 +20,7 @@ public class Order implements Parcelable {
     private Date orderDate;
     private String userId;
     private DeliveryAddress address;
+    private String status;
 
     public Order(Size size,
                  List<Topping> toppings,
@@ -25,7 +29,8 @@ public class Order implements Parcelable {
                  double price,
                  Date orderDate,
                  String userId,
-                 DeliveryAddress address) {
+                 DeliveryAddress address,
+                 String status) {
         this.size = size;
         this.toppings = toppings;
         this.sides = sides;
@@ -34,6 +39,7 @@ public class Order implements Parcelable {
         this.orderDate = orderDate;
         this.userId = userId;
         this.address = address;
+        this.status = status;
     }
 
     public Order(Size size,
@@ -46,6 +52,7 @@ public class Order implements Parcelable {
         this.sides = sides;
         this.drinks = drinks;
         this.userId = userId;
+        this.status = "pending";
     }
 
     public Order(Order p) {
@@ -56,15 +63,19 @@ public class Order implements Parcelable {
         drinks.addAll(p.drinks);
         this.orderDate = p.orderDate;
         this.userId = p.userId;
+        this.status = "pending";
     }
 
     protected Order(Parcel in) {
+        id = in.readString();
         size = in.readParcelable(Size.class.getClassLoader());
         toppings = in.createTypedArrayList(Topping.CREATOR);
         sides = in.createTypedArrayList(Side.CREATOR);
         drinks = in.createTypedArrayList(Drink.CREATOR);
         price = in.readDouble();
         userId = in.readString();
+        address = in.readParcelable(DeliveryAddress.class.getClassLoader());
+        status = in.readString();
     }
 
     public static final Creator<Order> CREATOR = new Creator<Order>() {
@@ -78,6 +89,15 @@ public class Order implements Parcelable {
             return new Order[size];
         }
     };
+
+    @Exclude
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 
     public Size getSize() {
         return size;
@@ -111,24 +131,24 @@ public class Order implements Parcelable {
         return userId;
     }
 
-    private BigDecimal calculateNetPrice() {
+    public BigDecimal calculateNetPrice() {
         return calculateTaxablePrice()
                 .add(calculateQuebecTax())
                 .add(calculateFederalTax())
                 .add(BigDecimal.valueOf(2.99));
     }
 
-    private BigDecimal calculateFederalTax() {
+    public BigDecimal calculateFederalTax() {
         return calculateTaxablePrice()
                 .multiply(BigDecimal.valueOf(0.05));
     }
 
-    private BigDecimal calculateQuebecTax() {
+    public BigDecimal calculateQuebecTax() {
         return calculateTaxablePrice()
                 .multiply(BigDecimal.valueOf(0.09975));
     }
 
-    private BigDecimal calculateTaxablePrice() {
+    public BigDecimal calculateTaxablePrice() {
         return BigDecimal.valueOf(size.getPrice())
                 .add(getTotalToppingPrice())
                 .add(getTotalSidePrice())
@@ -173,6 +193,14 @@ public class Order implements Parcelable {
         this.address = address;
     }
 
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
     public void recalculatePrice() {
         this.price = calculateNetPrice().doubleValue();
     }
@@ -191,8 +219,10 @@ public class Order implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeString(id);
         parcel.writeDouble(getPrice());
         parcel.writeString(getUserId());
+        parcel.writeString(status);
     }
 
     @Override

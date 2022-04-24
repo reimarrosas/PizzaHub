@@ -7,6 +7,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.NavDirections;
 import androidx.navigation.Navigation;
+import androidx.recyclerview.widget.GridLayoutManager;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -18,11 +19,23 @@ import com.stripe.android.PaymentConfiguration;
 import com.stripe.android.paymentsheet.PaymentSheet;
 import com.stripe.android.paymentsheet.PaymentSheetResult;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.util.ArrayList;
+import java.util.List;
+
 import me.reimarrosas.pizzahub.R;
+import me.reimarrosas.pizzahub.contracts.Notifiable;
 import me.reimarrosas.pizzahub.databinding.FragmentOrderSummaryBinding;
 import me.reimarrosas.pizzahub.helper.PaymentService;
+import me.reimarrosas.pizzahub.models.MenuItem;
 import me.reimarrosas.pizzahub.models.Order;
 import me.reimarrosas.pizzahub.models.PaymentIntention;
+import me.reimarrosas.pizzahub.models.Side;
+import me.reimarrosas.pizzahub.recycleradapters.adapterdata.OrderSummaryData;
+import me.reimarrosas.pizzahub.recycleradapters.adapterdata.OrderSummaryData.DataType;
+import me.reimarrosas.pizzahub.recycleradapters.summaryadapters.SummaryAdapter;
+import me.reimarrosas.pizzahub.services.OrderService;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -34,11 +47,13 @@ import retrofit2.converter.gson.GsonConverterFactory;
  * Use the {@link OrderSummaryFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class OrderSummaryFragment extends Fragment {
+public class OrderSummaryFragment extends Fragment implements Notifiable {
 
     private static final String TAG = "OrderSummaryFragment";
 
     private FragmentOrderSummaryBinding binding;
+
+    private SummaryAdapter adapter;
 
     private PaymentSheet paymentSheet;
     private String paymentIntentClientSecret;
@@ -46,6 +61,8 @@ public class OrderSummaryFragment extends Fragment {
     private Retrofit retrofit;
 
     private Order order;
+
+    private OrderService service;
 
     public OrderSummaryFragment() {
         // Required empty public constructor
@@ -68,6 +85,9 @@ public class OrderSummaryFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        service = new OrderService(this);
+
         setupArgs();
 
         retrofit = new Retrofit.Builder()
@@ -109,6 +129,7 @@ public class OrderSummaryFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         setupRecyclerView();
+        setupPrices();
         binding.buttonOrderSummaryOrder.setOnClickListener(_view -> {
             PaymentSheet.Configuration configuration =
                     new PaymentSheet.Configuration
@@ -118,6 +139,11 @@ public class OrderSummaryFragment extends Fragment {
                             .build();
             paymentSheet.presentWithPaymentIntent(paymentIntentClientSecret, configuration);
         });
+        binding.buttonOrderSummaryCancel.setOnClickListener(_view -> {
+            NavDirections action = OrderSummaryFragmentDirections
+                    .actionOrderSummaryFragmentToDeliveryLocationFragment(order);
+            Navigation.findNavController(_view).navigate(action);
+        });
     }
 
     public void onPaymentSheetResult(final PaymentSheetResult paymentSheetResult) {
@@ -126,11 +152,9 @@ public class OrderSummaryFragment extends Fragment {
         } else if (paymentSheetResult instanceof PaymentSheetResult.Failed) {
             PaymentSheetResult.Failed paymentFailed = (PaymentSheetResult.Failed) paymentSheetResult;
             Log.e(TAG, "onPaymentSheetResult: ", paymentFailed.getError());
-            Toast.makeText(getContext(),
-                    "Payment Failed!: " + paymentFailed.getError().getMessage(),
-                    Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), "Payment Failed!", Toast.LENGTH_SHORT).show();
         } else if (paymentSheetResult instanceof PaymentSheetResult.Completed) {
-            orderOrder();
+            service.insertData(order);
         }
     }
 
@@ -139,14 +163,96 @@ public class OrderSummaryFragment extends Fragment {
     }
 
     private void setupRecyclerView() {
+        List<OrderSummaryData> dataList = transformOrderToData(order);
+        adapter = new SummaryAdapter(getContext(), dataList);
+        binding.recyclerViewOrderDetails.setAdapter(adapter);
+
+        int spanCount = 2;
+
+        int onePerRow = spanCount / 1;
+        int twoPerRow = spanCount / 2;
+
+        GridLayoutManager layoutManager = new GridLayoutManager(getContext(), spanCount);
+        layoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
+            @Override
+            public int getSpanSize(int position) {
+                int type = adapter.getItemViewType(position);
+                return type == DataType.SECTION_HEADER.ordinal() ? onePerRow : twoPerRow;
+            }
+        });
+        binding.recyclerViewOrderDetails.setLayoutManager(layoutManager);
+    }
+
+    private void setupPrices() {
+        binding.textViewPrice.setText(
+                binding.textViewPrice.getText().toString() +
+                        decimalRounder(order.calculateTaxablePrice(), RoundingMode.HALF_UP));
+        binding.textViewGSTPrice.setText(
+                binding.textViewGSTPrice.getText().toString() +
+                        decimalRounder(order.calculateFederalTax(), RoundingMode.HALF_UP));
+        binding.textViewQSTPrice.setText(
+                binding.textViewQSTPrice.getText().toString() +
+                        decimalRounder(order.calculateQuebecTax(), RoundingMode.HALF_UP));
+        binding.textViewTotalPrice.setText(
+                binding.textViewTotalPrice.getText().toString() +
+                        decimalRounder(order.calculateNetPrice(), RoundingMode.CEILING));
     }
 
     private void orderOrder() {
         NavDirections action =
                 OrderSummaryFragmentDirections.actionOrderSummaryFragmentToOrderSuccessFragment(
-                        "123456",
+                        order.getId(),
                         String.valueOf(order.getPrice()));
         Navigation.findNavController(getView()).navigate(action);
     }
 
+    private double decimalRounder(BigDecimal b, RoundingMode r) {
+        BigDecimal oneHundred = BigDecimal.valueOf(100);
+
+        return b.multiply(oneHundred)
+                .setScale(0, r)
+                .divide(oneHundred)
+                .doubleValue();
+    }
+
+    private List<OrderSummaryData> transformOrderToData(Order order) {
+        List<OrderSummaryData> res = new ArrayList<>();
+        res.add(new OrderSummaryData(null, "Size", DataType.SECTION_HEADER));
+        res.add(new OrderSummaryData(order.getSize(), null, DataType.MENU_ITEM));
+        res.add(new OrderSummaryData(null, "Toppings", DataType.SECTION_HEADER));
+        addToSummaryDataList(res, order.getToppings());
+        res.add(new OrderSummaryData(null, "Sides", DataType.SECTION_HEADER));
+        addToSummaryDataList(res, order.getSides());
+        res.add(new OrderSummaryData(null, "Drinks", DataType.SECTION_HEADER));
+        addToSummaryDataList(res, order.getDrinks());
+        res.add(new OrderSummaryData(null, "Price", DataType.SECTION_HEADER));
+
+        return res;
+    }
+
+    private <T extends MenuItem> void addToSummaryDataList(List<OrderSummaryData> dataList, List<T> sourceList) {
+        for (MenuItem m : sourceList) {
+            dataList.add(new OrderSummaryData(m, null, DataType.MENU_ITEM));
+        }
+    }
+
+    @Override
+    public void notifyUpdatedData(@NonNull List<? extends MenuItem> items, MenuItem.MenuItemType type) {
+
+    }
+
+    @Override
+    public <T extends MenuItem> void notifyUpdatedData(@NonNull T item, MenuItem.MenuItemType type) {
+
+    }
+
+    @Override
+    public void notifyOperationSuccess(Throwable t) {
+        if (t == null) {
+            Log.d(TAG, "notifyOperationSuccess: Success!");
+            orderOrder();
+        } else {
+            Log.e(TAG, "notifyOperationSuccess: ", t);
+        }
+    }
 }

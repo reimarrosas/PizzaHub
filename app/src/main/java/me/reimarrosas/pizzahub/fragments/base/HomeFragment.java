@@ -222,4 +222,9 @@ public class HomeFragment extends Fragment implements Notifiable {
 
     }
 
+    @Override
+    public void notifyOperationSuccess(Throwable t) {
+
+    }
+
 }

@@ -5,6 +5,8 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.NavDirections;
+import androidx.navigation.Navigation;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -65,12 +67,17 @@ public class OrderSuccessFragment extends Fragment {
 
         binding.textViewOrderSuccessOrderNumber.setText(orderId);
         binding.textViewOrderSuccessTotalPrice.setText(totalPrice);
+        binding.buttonOrderSuccessMainMenu.setOnClickListener(_view -> {
+            NavDirections action = OrderSuccessFragmentDirections
+                    .actionOrderSuccessFragmentToHomeFragment();
+            Navigation.findNavController(_view).navigate(action);
+        });
     }
 
     private void setupArgs() {
         OrderSuccessFragmentArgs args = OrderSuccessFragmentArgs.fromBundle(getArguments());
 
-        orderId = "Order ID: " + args.getOrderId();
+        orderId = "ID: " + args.getOrderId();
 
         totalPrice = "Total Price: $" +
                 roundToNearestHundredths(new BigDecimal(args.getTotalPrice()));
