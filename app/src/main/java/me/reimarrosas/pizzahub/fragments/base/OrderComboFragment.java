@@ -158,11 +158,6 @@ public class OrderComboFragment extends Fragment implements Notifiable {
         }
     }
 
-    @Override
-    public void notifyOperationSuccess(Throwable t) {
-
-    }
-
     private void setupRecyclerView() {
         sizeAdapter = new SizeComboAdapter(getContext(), this, size);
         binding.recyclerViewComboSize.setAdapter(sizeAdapter);

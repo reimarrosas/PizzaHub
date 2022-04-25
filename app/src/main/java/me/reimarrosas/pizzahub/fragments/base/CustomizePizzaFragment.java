@@ -105,11 +105,6 @@ public class CustomizePizzaFragment extends Fragment implements Notifiable {
         }
     }
 
-    @Override
-    public void notifyOperationSuccess(Throwable t) {
-
-    }
-
     private void setupRecyclerViews() {
         int spanCount = 2;
 

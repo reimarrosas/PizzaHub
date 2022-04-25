@@ -217,14 +217,4 @@ public class HomeFragment extends Fragment implements Notifiable {
         }
     }
 
-    @Override
-    public <T extends MenuItem> void notifyUpdatedData(@NonNull T item, MenuItem.MenuItemType type) {
-
-    }
-
-    @Override
-    public void notifyOperationSuccess(Throwable t) {
-
-    }
-
 }

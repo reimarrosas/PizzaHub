@@ -64,6 +64,8 @@ public class OrderSummaryFragment extends Fragment implements Notifiable {
 
     private OrderService service;
 
+    private boolean isOkToProceed = false;
+
     public OrderSummaryFragment() {
         // Required empty public constructor
     }
@@ -108,6 +110,7 @@ public class OrderSummaryFragment extends Fragment implements Notifiable {
                         intention.getEphemeralKey());
                 paymentIntentClientSecret = intention.getPaymentIntent();
                 PaymentConfiguration.init(getContext(), intention.getPublishableKey());
+                isOkToProceed = true;
             }
 
             @Override
@@ -131,13 +134,17 @@ public class OrderSummaryFragment extends Fragment implements Notifiable {
         setupRecyclerView();
         setupPrices();
         binding.buttonOrderSummaryOrder.setOnClickListener(_view -> {
-            PaymentSheet.Configuration configuration =
-                    new PaymentSheet.Configuration
-                            .Builder("Pizza Hub")
-                            .customer(customerConfig)
-                            .allowsDelayedPaymentMethods(true)
-                            .build();
-            paymentSheet.presentWithPaymentIntent(paymentIntentClientSecret, configuration);
+            if (isOkToProceed) {
+                PaymentSheet.Configuration configuration =
+                        new PaymentSheet.Configuration
+                                .Builder("Pizza Hub")
+                                .customer(customerConfig)
+                                .allowsDelayedPaymentMethods(true)
+                                .build();
+                paymentSheet.presentWithPaymentIntent(paymentIntentClientSecret, configuration);
+            } else {
+                Toast.makeText(getContext(), "Please wait...", Toast.LENGTH_SHORT).show();
+            }
         });
         binding.buttonOrderSummaryCancel.setOnClickListener(_view -> {
             NavDirections action = OrderSummaryFragmentDirections
@@ -234,16 +241,6 @@ public class OrderSummaryFragment extends Fragment implements Notifiable {
         for (MenuItem m : sourceList) {
             dataList.add(new OrderSummaryData(m, null, DataType.MENU_ITEM));
         }
-    }
-
-    @Override
-    public void notifyUpdatedData(@NonNull List<? extends MenuItem> items, MenuItem.MenuItemType type) {
-
-    }
-
-    @Override
-    public <T extends MenuItem> void notifyUpdatedData(@NonNull T item, MenuItem.MenuItemType type) {
-
     }
 
     @Override
