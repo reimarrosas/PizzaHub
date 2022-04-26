@@ -70,4 +70,15 @@
         <item name="android:textColor">@color/dark</item>
         <item name="android:textStyle">bold</item>
     </style>
+
+    <style name="action_button" parent="Widget.MaterialComponents.Button">
+        <item name="shapeAppearanceOverlay">@style/bottom_rounded_button</item>
+    </style>
+
+    <style name="bottom_rounded_button">
+        <item name="cornerFamilyBottomRight">rounded</item>
+        <item name="cornerSizeBottomRight">10dp</item>
+        <item name="cornerFamilyBottomLeft">rounded</item>
+        <item name="cornerSizeBottomLeft">10dp</item>
+    </style>
 </resources>
