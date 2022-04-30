@@ -76,7 +76,9 @@ public abstract class OrderAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             case FOOTER:
                 OrderFooterViewHolder footerHolder = (OrderFooterViewHolder) holder;
                 footerHolder.setFooterData(data.getFooterData());
-                footerHolder.setOnClickToActionButton(actionOnClickListener(data.getOrder()));
+                footerHolder.setOnClickToActionButton(
+                        actionOnClickListener(data.getOrder(), position)
+                );
                 break;
         }
     }
@@ -97,6 +99,6 @@ public abstract class OrderAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         notifyDataSetChanged();
     }
 
-    protected abstract View.OnClickListener actionOnClickListener(Order o);
+    protected abstract View.OnClickListener actionOnClickListener(Order o, int position);
 
 }

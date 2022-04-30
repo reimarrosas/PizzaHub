@@ -21,6 +21,7 @@ import java.util.List;
 import me.reimarrosas.pizzahub.R;
 import me.reimarrosas.pizzahub.contracts.Notifiable;
 import me.reimarrosas.pizzahub.databinding.FragmentOrderSavedBinding;
+import me.reimarrosas.pizzahub.helper.CollectionConverters;
 import me.reimarrosas.pizzahub.models.Drink;
 import me.reimarrosas.pizzahub.models.Order;
 import me.reimarrosas.pizzahub.models.Pair;
@@ -110,11 +111,12 @@ public class OrderSavedFragment extends Fragment implements Notifiable {
                     null, null,
                     new Triple("Sides", "Toppings", "Drinks"),
                     OrderData.DataType.CONTENT, true));
-            List<Triple<String, String, String>> orderExtrasNames = zipOrderNamesByLongest(
-                    o.getSides(),
-                    o.getToppings(),
-                    o.getDrinks()
-            );
+            List<Triple<String, String, String>> orderExtrasNames = CollectionConverters
+                    .zipOrderNamesByLongest(
+                            o.getSides(),
+                            o.getToppings(),
+                            o.getDrinks()
+                    );
             for (Triple<String, String, String> t : orderExtrasNames) {
                 res.add(new OrderData(null, null, t, OrderData.DataType.CONTENT, false));
             }
@@ -127,27 +129,6 @@ public class OrderSavedFragment extends Fragment implements Notifiable {
         }
 
         return res;
-    }
-
-    private List<Triple<String, String, String>> zipOrderNamesByLongest(
-            List<Side> sides,
-            List<Topping> toppings,
-            List<Drink> drinks) {
-        int sideSize = sides.size();
-        int toppingSize = toppings.size();
-        int drinkSize = drinks.size();
-        int maxSize = Math.max(sideSize, Math.max(toppingSize, drinkSize));
-        List<Triple<String, String, String>> orderExtrasTriples = new ArrayList<>();
-
-        for (int i = 0; i < maxSize; ++i) {
-            String sideName = sideSize > i ? sides.get(i).getName() : "";
-            String toppingName = toppingSize > i ? toppings.get(i).getName() : "";
-            String drinkName = drinkSize > i ? drinks.get(i).getName() : "";
-
-            orderExtrasTriples.add(new Triple<>(sideName, toppingName, drinkName));
-        }
-
-        return orderExtrasTriples;
     }
 
 }

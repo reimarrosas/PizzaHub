@@ -17,7 +17,7 @@ public class OrderHistoryAdapter extends OrderAdapter {
     }
 
     @Override
-    protected View.OnClickListener actionOnClickListener(Order o) {
+    protected View.OnClickListener actionOnClickListener(Order o, int position) {
         return view -> {
             NavDirections action = OrderHistoryFragmentDirections
                     .actionOrderHistoryFragmentToOrderComboFragment(o);

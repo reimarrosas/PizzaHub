@@ -4,6 +4,7 @@ import android.util.Log;
 
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FieldPath;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -31,6 +32,21 @@ public class OrderService {
         this.n = n;
     }
 
+    public void fetchData(String collection) {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        db.collection(collection)
+                .whereEqualTo("status", "pending")
+                .get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        n.notifyUpdatedOrders(convertFirestoreResult(task.getResult()));
+                        Log.d(TAG, "Fetching order list successful!");
+                    } else {
+                        Log.e(TAG, "Error fetching order list", task.getException());
+                    }
+                });
+    }
+
     public void fetchData(String userId, String collection) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         db.collection(collection)
@@ -54,6 +70,15 @@ public class OrderService {
                     data.setId(ref.getId());
                     n.notifyOperationSuccess(null);
                 })
+                .addOnFailureListener(ex -> n.notifyOperationSuccess(ex));
+    }
+
+    public void changeOrderStatus(Order data) {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        db.collection("orders")
+                .document(data.getId())
+                .update("status", "accepted")
+                .addOnSuccessListener(_void -> n.notifyOperationSuccess(null))
                 .addOnFailureListener(ex -> n.notifyOperationSuccess(ex));
     }
 
