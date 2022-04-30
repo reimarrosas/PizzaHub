@@ -24,13 +24,12 @@ public class Drink extends Extras implements Parcelable {
         Drink d = (Drink) obj;
 
         return getName().equals(d.getName()) &&
-                getImageUrl().equals(d.getImageUrl()) &&
-                getPrice() == d.getPrice();
+                getImageUrl().equals(d.getImageUrl());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getName(), getImageUrl(), getPrice());
+        return Objects.hash(getName(), getImageUrl());
     }
 
     protected Drink(Parcel in) {

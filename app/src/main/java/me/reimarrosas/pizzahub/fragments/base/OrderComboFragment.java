@@ -39,6 +39,7 @@ import me.reimarrosas.pizzahub.recycleradapters.comboadapters.SideComboAdapter;
 import me.reimarrosas.pizzahub.recycleradapters.comboadapters.SizeComboAdapter;
 import me.reimarrosas.pizzahub.recycleradapters.comboadapters.ToppingComboAdapter;
 import me.reimarrosas.pizzahub.services.DrinkService;
+import me.reimarrosas.pizzahub.services.OrderService;
 import me.reimarrosas.pizzahub.services.PremadeService;
 import me.reimarrosas.pizzahub.services.SideService;
 import me.reimarrosas.pizzahub.services.SizeService;
@@ -53,8 +54,9 @@ public class OrderComboFragment extends Fragment implements Notifiable {
     private FragmentOrderComboBinding binding;
 
     private Order order;
+    private OrderService orderService;
 
-    public Size size;
+    private Size size;
     private SizeComboAdapter sizeAdapter;
     private Service<Size> sizeService;
 
@@ -98,6 +100,7 @@ public class OrderComboFragment extends Fragment implements Notifiable {
         premadeService = new PremadeService(this);
         sideService = new SideService(this);
         drinkService = new DrinkService(this);
+        orderService = new OrderService(this);
     }
 
     @Override
@@ -155,6 +158,16 @@ public class OrderComboFragment extends Fragment implements Notifiable {
             case DRINK:
                 addOrRemoveFromList(selectedDrinkList, (Drink) item);
                 break;
+        }
+    }
+
+    @Override
+    public void notifyOperationSuccess(Throwable t) {
+        if (t == null) {
+            Toast.makeText(getContext(), "Order successfully saved!", Toast.LENGTH_SHORT)
+                    .show();
+        } else {
+            Toast.makeText(getContext(), "Error saving order!", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -220,6 +233,10 @@ public class OrderComboFragment extends Fragment implements Notifiable {
     }
 
     private void saveHandler(View view) {
+        if (size != null && toppingList.size() != 0) {
+            order.recalculatePrice();
+            orderService.insertData(order, "saves");
+        }
     }
 
     private void cancelHandler(View view) {

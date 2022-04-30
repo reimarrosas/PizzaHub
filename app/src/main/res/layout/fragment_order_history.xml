@@ -32,7 +32,7 @@
         android:id="@+id/textViewHistoryGoBack"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Back"
+        android:text="@string/go_back"
         style="@style/go_back_link"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

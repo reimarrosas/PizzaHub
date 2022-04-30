@@ -161,7 +161,7 @@ public class OrderSummaryFragment extends Fragment implements Notifiable {
             Log.e(TAG, "onPaymentSheetResult: ", paymentFailed.getError());
             Toast.makeText(getContext(), "Payment Failed!", Toast.LENGTH_SHORT).show();
         } else if (paymentSheetResult instanceof PaymentSheetResult.Completed) {
-            service.insertData(order);
+            service.insertData(order, "orders");
         }
     }
 

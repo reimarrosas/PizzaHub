@@ -6,6 +6,8 @@ import android.os.Parcelable;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import java.util.Objects;
+
 public class Side extends Extras implements Parcelable {
 
     public Side() {
@@ -25,13 +27,12 @@ public class Side extends Extras implements Parcelable {
         if (!(obj instanceof Side)) return false;
         Side s = (Side) obj;
         return getName().equals(s.getName()) &&
-                getImageUrl().equals(s.getImageUrl()) &&
-                getPrice() == s.getPrice();
+                getImageUrl().equals(s.getImageUrl());
     }
 
     @Override
     public int hashCode() {
-        return super.hashCode();
+        return Objects.hash(getName(), getImageUrl());
     }
 
     protected Side(Parcel in) {

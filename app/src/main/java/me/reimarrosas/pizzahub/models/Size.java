@@ -29,13 +29,12 @@ public class Size extends Extras implements Parcelable {
         Size s = (Size) o;
         return getName().equals(s.getName()) &&
                 getImageUrl().equals(s.getImageUrl()) &&
-                getSize() == s.getSize() &&
-                getPrice() == s.getPrice();
+                getSize() == s.getSize();
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getName(), getImageUrl(), getSize(), getPrice());
+        return Objects.hash(getName(), getImageUrl(), getSize());
     }
 
     protected Size(Parcel in) {

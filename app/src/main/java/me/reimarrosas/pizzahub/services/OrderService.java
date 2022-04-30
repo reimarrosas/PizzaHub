@@ -25,18 +25,17 @@ public class OrderService {
 
     private static final String TAG = "OrderService";
 
-    private static final CollectionReference DB =
-            FirebaseFirestore.getInstance()
-                    .collection("orders");
-
     private Notifiable n;
 
     public OrderService(Notifiable n) {
         this.n = n;
     }
 
-    public void fetchData() {
-        DB.get()
+    public void fetchData(String userId, String collection) {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        db.collection(collection)
+                .whereEqualTo("userId", userId)
+                .get()
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
                         n.notifyUpdatedOrders(convertFirestoreResult(task.getResult()));
@@ -47,8 +46,10 @@ public class OrderService {
                 });
     }
 
-    public void insertData(Order data) {
-        DB.add(data)
+    public void insertData(Order data, String collection) {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        db.collection(collection)
+                .add(data)
                 .addOnSuccessListener(ref -> {
                     data.setId(ref.getId());
                     n.notifyOperationSuccess(null);
@@ -85,7 +86,7 @@ public class OrderService {
         Size s = new Size();
 
         for (Map.Entry<String, Object> e : raw.entrySet()) {
-            switch(e.getKey()) {
+            switch (e.getKey()) {
                 case "name":
                     s.setName(e.getValue().toString());
                     break;

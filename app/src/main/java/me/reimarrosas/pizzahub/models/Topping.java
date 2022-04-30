@@ -60,14 +60,13 @@ public class Topping extends Extras implements Parcelable {
         if (!(o instanceof Topping)) return false;
         Topping topping = (Topping) o;
         return getImageUrl().equals(topping.getImageUrl()) &&
-                getPrice() == topping.getPrice() &&
                 getName().equals(topping.getName()) &&
                 getType().equals(topping.getType());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getId(), getImageUrl(), getPrice(), getName(), getType());
+        return Objects.hash(getImageUrl(), getName(), getType());
     }
 
     @Override

@@ -13,6 +13,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.firebase.auth.FirebaseAuth;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -79,7 +81,7 @@ public class OrderHistoryFragment extends Fragment implements Notifiable {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        service.fetchData();
+        service.fetchData(FirebaseAuth.getInstance().getUid(), "orders");
         setupRecyclerView();
         binding.textViewHistoryGoBack.setOnClickListener(_view -> {
             NavDirections action = OrderHistoryFragmentDirections
