@@ -5,6 +5,8 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.NavDirections;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
@@ -105,6 +107,12 @@ public class AdminDrinksFragment extends Fragment implements Notifiable {
 
         binding.buttonDrinkReset.setOnClickListener(_view -> {
             clearInputs();
+        });
+
+        binding.textViewDrinksGoBack.setOnClickListener(_view -> {
+            NavDirections action = AdminDrinksFragmentDirections
+                    .actionAdminDrinksFragmentToAdminHomeFragment();
+            Navigation.findNavController(_view).navigate(action);
         });
     }
 

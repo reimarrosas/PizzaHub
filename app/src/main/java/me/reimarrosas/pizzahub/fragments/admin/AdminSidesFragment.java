@@ -5,6 +5,8 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.NavDirections;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
@@ -106,6 +108,11 @@ public class AdminSidesFragment extends Fragment implements Notifiable {
 
         binding.buttonSideReset.setOnClickListener(_view -> {
             clearInputs();
+        });
+        binding.textViewSidesGoBack.setOnClickListener(_view -> {
+            NavDirections action = AdminSidesFragmentDirections
+                    .actionAdminSidesFragmentToAdminHomeFragment();
+            Navigation.findNavController(_view).navigate(action);
         });
     }
 

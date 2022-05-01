@@ -5,6 +5,8 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.NavDirections;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
@@ -114,6 +116,11 @@ public class AdminToppingsFragment extends Fragment implements Notifiable {
         });
         binding.buttonToppingReset.setOnClickListener(_view -> {
             clearInputs();
+        });
+        binding.textViewToppingsGoBack.setOnClickListener(_view -> {
+            NavDirections action = AdminToppingsFragmentDirections
+                    .actionAdminToppingsFragmentToAdminHomeFragment();
+            Navigation.findNavController(_view).navigate(action);
         });
     }
 
