@@ -8,24 +8,121 @@
     tools:context=".fragments.admin.AdminHomeFragment">
 
     <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:id="@+id/textViewAdminHomeTitle"
-        style="@style/title"
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fabMain"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:text="@string/order_list_title"
+        style="@style/fab_main"
+        app:tint="@color/yellow"
+        android:contentDescription="@string/main_fab"
+        android:clickable="true"
+        android:src="@drawable/ic_plus"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:focusable="true" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerViewAdminHome"
-        android:layout_width="0dp"
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fabLogout"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
+        style="@style/fab_button"
+        app:tint="@color/yellow"
+        android:contentDescription="@string/logout_fab"
+        android:clickable="true"
+        android:src="@drawable/ic_logout"
+        app:layout_constraintBottom_toTopOf="@+id/fabMain"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:focusable="true" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fabDrinks"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="@style/fab_button"
+        app:tint="@color/yellow"
+        android:contentDescription="@string/drinks_fab"
+        android:clickable="true"
+        android:src="@drawable/ic_baseline_local_drink_24"
+        app:layout_constraintBottom_toTopOf="@+id/fabLogout"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:focusable="true" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fabSides"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="@style/fab_button"
+        app:tint="@color/yellow"
+        android:contentDescription="@string/sides_fab"
+        android:clickable="true"
+        android:src="@drawable/ic_sauce_svgrepo_com"
+        app:layout_constraintBottom_toTopOf="@+id/fabDrinks"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:focusable="true" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fabToppings"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="@style/fab_button"
+        app:tint="@color/yellow"
+        android:contentDescription="@string/toppings_fab"
+        android:clickable="true"
+        android:src="@drawable/ic_baseline_local_pizza_24"
+        app:layout_constraintBottom_toTopOf="@+id/fabSides"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:focusable="true" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fabPremades"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="@style/fab_button"
+        app:tint="@color/yellow"
+        android:contentDescription="@string/premade_fab"
+        android:clickable="true"
+        android:src="@drawable/ic_pizza_svgrepo_com"
+        app:layout_constraintBottom_toTopOf="@+id/fabToppings"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:focusable="true" />
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textViewAdminHomeTitle" />
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/textViewAdminHomeTitle"
+                style="@style/title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="@string/order_list_title"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerViewAdminHome"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textViewAdminHomeTitle">
+
+            </androidx.recyclerview.widget.RecyclerView>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.core.widget.NestedScrollView>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

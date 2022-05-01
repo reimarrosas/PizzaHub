@@ -19,6 +19,7 @@ public class Side extends Extras implements Parcelable {
 
     public Side(Side s) {
         super(s.getName(), s.getImageUrl(), s.getPrice());
+        setId(s.getId());
     }
 
     @Override

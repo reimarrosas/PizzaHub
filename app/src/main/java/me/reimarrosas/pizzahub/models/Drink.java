@@ -17,6 +17,11 @@ public class Drink extends Extras implements Parcelable {
         super(name, imageUrl, price);
     }
 
+    public Drink(Drink d) {
+        super(d.getName(), d.getImageUrl(), d.getPrice());
+        setId(d.getId());
+    }
+
     @Override
     public boolean equals(@Nullable Object obj) {
         if (this == obj) return true;

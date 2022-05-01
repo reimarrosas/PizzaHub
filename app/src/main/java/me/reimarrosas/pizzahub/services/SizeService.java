@@ -47,7 +47,7 @@ public class SizeService implements Service<Size> {
     }
 
     @Override
-    public void insertData(Size data) {
+    public void upsertData(Size data) {
 
     }
 

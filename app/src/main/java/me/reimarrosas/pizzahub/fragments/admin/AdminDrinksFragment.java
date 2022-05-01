@@ -9,27 +9,29 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import me.reimarrosas.pizzahub.R;
+import me.reimarrosas.pizzahub.databinding.FragmentAdminDrinksBinding;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link AddSidesFragment#newInstance} factory method to
+ * Use the {@link AdminDrinksFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class AddSidesFragment extends Fragment {
+public class AdminDrinksFragment extends Fragment {
 
-    public AddSidesFragment() {
-        // Required empty public constructor
+    private FragmentAdminDrinksBinding binding;
+
+    public AdminDrinksFragment() {
     }
 
     /**
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
      *
-     * @return A new instance of fragment AddSidesFragment.
+     * @return A new instance of fragment AdminDrinksFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static AddSidesFragment newInstance() {
-        AddSidesFragment fragment = new AddSidesFragment();
+    public static AdminDrinksFragment newInstance() {
+        AdminDrinksFragment fragment = new AdminDrinksFragment();
         Bundle args = new Bundle();
         fragment.setArguments(args);
         return fragment;
@@ -38,14 +40,13 @@ public class AddSidesFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-        }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_add_sides, container, false);
+        binding = FragmentAdminDrinksBinding.inflate(inflater, container, false);
+        return binding.getRoot();
     }
+
 }

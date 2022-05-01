@@ -65,7 +65,7 @@ public class SideService implements Service<Side> {
     }
 
     @Override
-    public void insertData(Side data) {
+    public void upsertData(Side data) {
         DB.add(data)
                 .addOnSuccessListener(ref ->
                         Log.d(TAG, "Document written with ID: " + ref.getId()))

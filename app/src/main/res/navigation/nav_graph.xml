@@ -112,6 +112,18 @@
         <action
             android:id="@+id/action_adminHomeFragment_to_signInOptionsFragment"
             app:destination="@id/signInOptionsFragment" />
+        <action
+            android:id="@+id/action_adminHomeFragment_to_adminPremadeFragment"
+            app:destination="@id/adminPremadeFragment" />
+        <action
+            android:id="@+id/action_adminHomeFragment_to_adminToppingsFragment"
+            app:destination="@id/adminToppingsFragment" />
+        <action
+            android:id="@+id/action_adminHomeFragment_to_adminSidesFragment"
+            app:destination="@id/adminSidesFragment" />
+        <action
+            android:id="@+id/action_adminHomeFragment_to_adminDrinksFragment"
+            app:destination="@id/adminDrinksFragment" />
     </fragment>
     <fragment
         android:id="@+id/orderComboFragment"
@@ -193,4 +205,58 @@
         android:name="me.reimarrosas.pizzahub.fragments.base.OrderCancelledFragment"
         android:label="fragment_order_cancelled"
         tools:layout="@layout/fragment_order_cancelled" />
+    <fragment
+        android:id="@+id/adminPremadeFragment"
+        android:name="me.reimarrosas.pizzahub.fragments.admin.AdminPremadeFragment"
+        android:label="fragment_admin_premade"
+        tools:layout="@layout/fragment_admin_premade" >
+        <action
+            android:id="@+id/action_adminPremadeFragment_to_adminHomeFragment"
+            app:destination="@id/adminHomeFragment" />
+        <action
+            android:id="@+id/action_adminPremadeFragment_to_savePremadeFragment"
+            app:destination="@id/savePremadeFragment" />
+        <argument
+            android:name="toppings"
+            app:argType="me.reimarrosas.pizzahub.models.Topping[]" />
+    </fragment>
+    <fragment
+        android:id="@+id/adminToppingsFragment"
+        android:name="me.reimarrosas.pizzahub.fragments.admin.AdminToppingsFragment"
+        android:label="fragment_admin_toppings"
+        tools:layout="@layout/fragment_admin_toppings" >
+        <action
+            android:id="@+id/action_adminToppingsFragment_to_adminHomeFragment"
+            app:destination="@id/adminHomeFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/adminSidesFragment"
+        android:name="me.reimarrosas.pizzahub.fragments.admin.AdminSidesFragment"
+        android:label="fragment_admin_sides"
+        tools:layout="@layout/fragment_admin_sides" >
+        <action
+            android:id="@+id/action_adminSidesFragment_to_adminHomeFragment"
+            app:destination="@id/adminHomeFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/adminDrinksFragment"
+        android:name="me.reimarrosas.pizzahub.fragments.admin.AdminDrinksFragment"
+        android:label="fragment_admin_drinks"
+        tools:layout="@layout/fragment_admin_drinks" >
+        <action
+            android:id="@+id/action_adminDrinksFragment_to_adminHomeFragment"
+            app:destination="@id/adminHomeFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/savePremadeFragment"
+        android:name="me.reimarrosas.pizzahub.fragments.admin.SavePremadeFragment"
+        android:label="fragment_save_premade"
+        tools:layout="@layout/fragment_save_premade" >
+        <action
+            android:id="@+id/action_savePremadeFragment_to_adminPremadeFragment"
+            app:destination="@id/adminPremadeFragment" />
+        <argument
+            android:name="toppings"
+            app:argType="me.reimarrosas.pizzahub.models.Topping[]" />
+    </fragment>
 </navigation>

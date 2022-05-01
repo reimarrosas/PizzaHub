@@ -81,4 +81,22 @@
     <string name="order">Order</string>
     <string name="payment_api_string">https://pizzahub-payment.herokuapp.com/</string>
     <string name="go_back"><![CDATA[< Back]]></string>
+    <string name="drinks_fab">Drinks FAB</string>
+    <string name="sides_fab">Sides FAB</string>
+    <string name="toppings_fab">Toppings FAB</string>
+    <string name="premade_fab">Premade FAB</string>
+    <string name="admin_toppings">Toppings</string>
+    <string name="topping_type">Topping Type</string>
+    <string name="topping_name">Topping Name</string>
+    <string name="topping_image_url">Topping Image URL</string>
+    <string name="topping_price">Topping Price</string>
+
+    <string-array name="topping_types">
+        <item>seafood</item>
+        <item>vegetable</item>
+        <item>meat</item>
+        <item>cheese</item>
+        <item>sauce</item>
+        <item>fruit</item>
+    </string-array>
 </resources>

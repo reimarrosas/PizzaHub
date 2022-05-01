@@ -59,7 +59,7 @@ public class DrinkService implements Service<Drink> {
     }
 
     @Override
-    public void insertData(Drink data) {
+    public void upsertData(Drink data) {
         DB.add(data)
                 .addOnSuccessListener(ref ->
                         Log.d(TAG, "Document written on ID: " + ref.getId()))

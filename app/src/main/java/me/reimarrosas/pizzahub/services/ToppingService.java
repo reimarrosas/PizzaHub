@@ -2,6 +2,7 @@ package me.reimarrosas.pizzahub.services;
 
 import android.util.Log;
 
+import com.google.api.LogDescriptor;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
@@ -30,8 +31,7 @@ public class ToppingService implements Service<Topping> {
 
     @Override
     public void fetchAllData(List<Topping> data) {
-        DB.orderBy("type")
-                .get()
+        DB.get()
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
                         data.addAll(snapshotToObject(task.getResult(), Topping.class));
@@ -60,10 +60,15 @@ public class ToppingService implements Service<Topping> {
     }
 
     @Override
-    public void insertData(Topping data) {
-        DB.add(data)
-                .addOnSuccessListener(ref ->
-                        Log.d(TAG, "Document written with ID: " + ref.getId()))
+    public void upsertData(Topping data) {
+        String id = DB.document().getId();
+        if (data.getId() == null) {
+            data.setId(id);
+        }
+        DB.document(data.getId())
+                .set(data)
+                .addOnSuccessListener(_void ->
+                        Log.d(TAG, "Document upserted with ID: " + id))
                 .addOnFailureListener(ex -> Log.w(TAG, "Error inserting document: ", ex));
     }
 

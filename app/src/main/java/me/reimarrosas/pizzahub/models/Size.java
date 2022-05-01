@@ -20,6 +20,7 @@ public class Size extends Extras implements Parcelable {
     public Size(Size s) {
         super(s.getName(), s.getImageUrl(), s.getPrice());
         this.size = s.size;
+        setId(s.getId());
     }
 
     @Override

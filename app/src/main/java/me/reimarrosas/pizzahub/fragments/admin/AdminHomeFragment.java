@@ -5,6 +5,8 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.NavDirections;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.view.LayoutInflater;
@@ -43,6 +45,8 @@ public class AdminHomeFragment extends Fragment implements Notifiable {
 
     private OrderAdminAdapter adapter;
 
+    private boolean isVisible = false;
+
     public AdminHomeFragment() {
         // Required empty public constructor
     }
@@ -80,11 +84,13 @@ public class AdminHomeFragment extends Fragment implements Notifiable {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        hideFABs();
+
         service.fetchData("orders");
         binding.recyclerViewAdminHome.setAdapter(adapter);
         binding.recyclerViewAdminHome.setLayoutManager(new LinearLayoutManager(getContext()));
+        setupFABs();
     }
-
 
     @Override
     public void notifyOperationSuccess(Throwable t) {
@@ -99,6 +105,33 @@ public class AdminHomeFragment extends Fragment implements Notifiable {
     @Override
     public void notifyUpdatedOrders(List<Order> orders) {
         adapter.updateDataList(convertOrdersToAdapterData(orders));
+    }
+
+    private void setupFABs() {
+        binding.fabMain.setOnClickListener(view -> {
+            if (isVisible) {
+                hideFABs();
+            } else {
+                showFABs();
+            }
+
+            isVisible = !isVisible;
+        });
+        binding.fabLogout.setOnClickListener(view -> navigator(view,
+                AdminHomeFragmentDirections.actionAdminHomeFragmentToSignInOptionsFragment()));
+        binding.fabDrinks.setOnClickListener(view -> navigator(view,
+                AdminHomeFragmentDirections.actionAdminHomeFragmentToAdminDrinksFragment()));
+        binding.fabSides.setOnClickListener(view -> navigator(view,
+                AdminHomeFragmentDirections.actionAdminHomeFragmentToAdminSidesFragment()));
+        binding.fabToppings.setOnClickListener(view -> navigator(view,
+                AdminHomeFragmentDirections.actionAdminHomeFragmentToAdminToppingsFragment()));
+        binding.fabPremades.setOnClickListener(view -> navigator(view,
+                AdminHomeFragmentDirections.actionAdminHomeFragmentToAdminPremadeFragment(
+                        new Topping[]{})));
+    }
+
+    private void navigator(View view, NavDirections direction) {
+        Navigation.findNavController(view).navigate(direction);
     }
 
     private List<OrderData> convertOrdersToAdapterData(List<Order> orders) {
@@ -133,5 +166,20 @@ public class AdminHomeFragment extends Fragment implements Notifiable {
         return res;
     }
 
+    private void showFABs() {
+        binding.fabLogout.show();
+        binding.fabDrinks.show();
+        binding.fabSides.show();
+        binding.fabToppings.show();
+        binding.fabPremades.show();
+    }
+
+    private void hideFABs() {
+        binding.fabLogout.hide();
+        binding.fabDrinks.hide();
+        binding.fabSides.hide();
+        binding.fabToppings.hide();
+        binding.fabPremades.hide();
+    }
 
 }

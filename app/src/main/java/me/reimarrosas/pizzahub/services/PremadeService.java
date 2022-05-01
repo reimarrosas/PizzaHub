@@ -79,7 +79,7 @@ public class PremadeService implements Service<Premade> {
     }
 
     @Override
-    public void insertData(Premade data) {
+    public void upsertData(Premade data) {
         DB.add(data)
                 .addOnSuccessListener(ref ->
                         Log.d(TAG, "Document written with ID: " + ref.getId()))

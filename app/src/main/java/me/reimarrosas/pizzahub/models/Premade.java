@@ -17,6 +17,7 @@ public class Premade extends MenuItem {
     public Premade(Premade p) {
         super(p.getName(), p.getImageUrl());
         this.toppings = p.toppings;
+        setId(p.getId());
     }
 
     public void setToppings(List<Topping> toppings) {

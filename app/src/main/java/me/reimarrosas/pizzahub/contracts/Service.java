@@ -17,7 +17,7 @@ public interface Service<T extends MenuItem> {
 
     void fetchSingleData(String dataId);
 
-    void insertData(T data);
+    void upsertData(T data);
 
     void deleteData(String dataId);
 

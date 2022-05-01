@@ -64,6 +64,7 @@ public class Order implements Parcelable {
         this.orderDate = p.orderDate;
         this.userId = p.userId;
         this.status = "pending";
+        setId(p.getId());
     }
 
     protected Order(Parcel in) {

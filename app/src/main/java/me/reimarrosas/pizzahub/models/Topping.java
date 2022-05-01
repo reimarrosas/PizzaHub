@@ -20,6 +20,7 @@ public class Topping extends Extras implements Parcelable {
     public Topping(Topping t) {
         super(t.getName(), t.getImageUrl(), t.getPrice());
         this.type = t.type;
+        setId(t.getId());
     }
 
     protected Topping(Parcel in) {
