@@ -89,7 +89,8 @@ public class SignInOptionsFragment extends Fragment {
 
         FirebaseUser currentUser = auth.getCurrentUser();
         if (currentUser != null) {
-            goToHome();
+            currentUser.reload();
+            checkIfVerified(currentUser.isEmailVerified());
         }
 
         binding.buttonGoogle.setOnClickListener(this::googleLoginHandler);
@@ -136,7 +137,9 @@ public class SignInOptionsFragment extends Fragment {
         auth.signInWithCredential(credential)
                 .addOnCompleteListener(getActivity(), task -> {
                     if (task.isSuccessful()) {
-                        goToHome();
+                        FirebaseUser currentUser = auth.getCurrentUser();
+                        currentUser.reload();
+                        checkIfVerified(currentUser.isEmailVerified());
                     } else {
                         Toast.makeText(getContext(), "Google Sign In Failed!",
                                 Toast.LENGTH_SHORT
@@ -157,10 +160,24 @@ public class SignInOptionsFragment extends Fragment {
         Navigation.findNavController(getView()).navigate(action);
     }
 
+    private void goToEmailVerification() {
+        NavDirections action = SignInOptionsFragmentDirections
+                .actionSignInOptionsFragmentToUserVerificationFragment();
+        Navigation.findNavController(getView()).navigate(action);
+    }
+
     private void goToAdminLogin(View view) {
         NavDirections action = SignInOptionsFragmentDirections
                 .actionSignInOptionsFragmentToAdminLoginFragment();
         Navigation.findNavController(view).navigate(action);
+    }
+
+    private void checkIfVerified(boolean isVerified) {
+        if (isVerified) {
+            goToHome();
+        } else {
+            goToEmailVerification();
+        }
     }
 
 }

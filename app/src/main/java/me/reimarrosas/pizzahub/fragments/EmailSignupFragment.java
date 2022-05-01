@@ -63,8 +63,9 @@ public class EmailSignupFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         FirebaseUser currentUser = auth.getCurrentUser();
+        currentUser.reload();
         if (currentUser != null) {
-            navigateToHome(view);
+            checkIfVerified(currentUser.isEmailVerified());
         }
 
         binding.textViewLoginLink.setOnClickListener(_view -> {
@@ -85,6 +86,12 @@ public class EmailSignupFragment extends Fragment {
     private void navigateToHome(View view) {
         NavDirections action = EmailSignupFragmentDirections
                 .actionEmailSignupFragmentToHomeFragment();
+        Navigation.findNavController(view).navigate(action);
+    }
+
+    private void navigateToVerification(View view) {
+        NavDirections action = EmailSignupFragmentDirections
+                .actionEmailSignupFragmentToUserVerificationFragment();
         Navigation.findNavController(view).navigate(action);
     }
 
@@ -111,7 +118,9 @@ public class EmailSignupFragment extends Fragment {
         auth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(getActivity(), task -> {
                     if (task.isSuccessful()) {
-                        goToHome(view);
+                        FirebaseUser currentUser = auth.getCurrentUser();
+                        currentUser.reload();
+                        checkIfVerified(currentUser.isEmailVerified());
                     } else {
                         Toast.makeText(
                                 EmailSignupFragment.this.getContext(),
@@ -122,10 +131,12 @@ public class EmailSignupFragment extends Fragment {
                 });
     }
 
-    private void goToHome(View view) {
-        NavDirections action = EmailSignupFragmentDirections
-                .actionEmailSignupFragmentToHomeFragment();
-        Navigation.findNavController(view).navigate(action);
+    private void checkIfVerified(boolean isVerified) {
+        if (isVerified) {
+            navigateToHome(getView());
+        } else {
+            navigateToVerification(getView());
+        }
     }
 
 }

@@ -66,9 +66,8 @@ public class EmailSignInFragment extends Fragment {
 
         FirebaseUser currentUser = auth.getCurrentUser();
         if (currentUser != null) {
-            NavDirections action = EmailSignInFragmentDirections
-                    .actionEmailSigninFragmentToHomeFragment();
-            Navigation.findNavController(view).navigate(action);
+            currentUser.reload();
+            checkIfVerified(currentUser.isEmailVerified());
         }
 
         binding.textViewSignUpLink.setOnClickListener(this::goToSignUp);
@@ -105,7 +104,9 @@ public class EmailSignInFragment extends Fragment {
         auth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(getActivity(), task -> {
                     if (task.isSuccessful()) {
-                        goToHome(view);
+                        FirebaseUser currentUser = auth.getCurrentUser();
+                        currentUser.reload();
+                        checkIfVerified(currentUser.isEmailVerified());
                     } else {
                         Toast.makeText(getContext(), "Login Failed!", Toast.LENGTH_SHORT)
                                 .show();
@@ -120,7 +121,13 @@ public class EmailSignInFragment extends Fragment {
 
     private void goToHome(View view) {
         NavDirections action = EmailSignInFragmentDirections
-                .actionEmailSigninFragmentToHomeFragment();
+                .actionEmailSignInFragmentToHomeFragment();
+        Navigation.findNavController(view).navigate(action);
+    }
+
+    private void goToEmailVerification(View view) {
+        NavDirections action = EmailSignInFragmentDirections
+                .actionEmailSignInFragmentToHomeFragment();
         Navigation.findNavController(view).navigate(action);
     }
 
@@ -128,6 +135,14 @@ public class EmailSignInFragment extends Fragment {
         NavDirections action = EmailSignInFragmentDirections
                 .actionEmailSignInFragmentToSignInOptionsFragment();
         Navigation.findNavController(view).navigate(action);
+    }
+
+    private void checkIfVerified(boolean isVerified) {
+        if (isVerified) {
+            goToHome(getView());
+        } else {
+            goToEmailVerification(getView());
+        }
     }
 
 }

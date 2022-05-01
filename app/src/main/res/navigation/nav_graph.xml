@@ -19,6 +19,9 @@
         <action
             android:id="@+id/action_signInOptionsFragment_to_adminLoginFragment"
             app:destination="@id/adminLoginFragment" />
+        <action
+            android:id="@+id/action_signInOptionsFragment_to_userVerificationFragment"
+            app:destination="@id/userVerificationFragment" />
     </fragment>
     <fragment
         android:id="@+id/emailSignInFragment"
@@ -29,11 +32,14 @@
             android:id="@+id/action_emailSigninFragment_to_emailSignupFragment"
             app:destination="@id/emailSignupFragment" />
         <action
-            android:id="@+id/action_emailSigninFragment_to_homeFragment"
-            app:destination="@id/homeFragment" />
-        <action
             android:id="@+id/action_emailSignInFragment_to_signInOptionsFragment"
             app:destination="@id/signInOptionsFragment" />
+        <action
+            android:id="@+id/action_emailSignInFragment_to_userVerificationFragment"
+            app:destination="@id/userVerificationFragment" />
+        <action
+            android:id="@+id/action_emailSignInFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
     </fragment>
     <fragment
         android:id="@+id/emailSignupFragment"
@@ -43,6 +49,12 @@
         <action
             android:id="@+id/action_emailSignupFragment_to_emailSigninFragment"
             app:destination="@id/emailSignInFragment" />
+        <action
+            android:id="@+id/action_emailSignupFragment_self"
+            app:destination="@id/emailSignupFragment" />
+        <action
+            android:id="@+id/action_emailSignupFragment_to_userVerificationFragment"
+            app:destination="@id/userVerificationFragment" />
         <action
             android:id="@+id/action_emailSignupFragment_to_homeFragment"
             app:destination="@id/homeFragment" />
@@ -258,5 +270,17 @@
         <argument
             android:name="toppings"
             app:argType="me.reimarrosas.pizzahub.models.Topping[]" />
+    </fragment>
+    <fragment
+        android:id="@+id/userVerificationFragment"
+        android:name="me.reimarrosas.pizzahub.fragments.UserVerificationFragment"
+        android:label="fragment_user_verification"
+        tools:layout="@layout/fragment_user_verification" >
+        <action
+            android:id="@+id/action_userVerificationFragment_to_signInOptionsFragment"
+            app:destination="@id/signInOptionsFragment" />
+        <action
+            android:id="@+id/action_userVerificationFragment_to_homeFragment2"
+            app:destination="@id/homeFragment" />
     </fragment>
 </navigation>
