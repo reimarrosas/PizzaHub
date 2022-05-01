@@ -33,6 +33,10 @@ public class DefaultViewHolder extends RecyclerView.ViewHolder implements Checka
         card.setChecked(!card.isChecked());
     }
 
+    public void setChecked(boolean checkState) {
+        card.setChecked(checkState);
+    }
+
     public ImageView getThumbNail() {
         return thumbNail;
     }

@@ -73,15 +73,14 @@ public class ToppingCustomizeAdapter extends RecyclerView.Adapter<RecyclerView.V
                         .load(cpd.getTopping().getImageUrl())
                         .into(defaultViewHolder.getThumbNail());
                 defaultViewHolder.addCheckListener(checkCardHandler(defaultViewHolder, cpd));
-                if (selectedList.contains(cpd.getTopping())) {
-                    defaultViewHolder.updateDataCheckedState();
-                }
+                defaultViewHolder.setChecked(selectedList.contains(cpd.getTopping()));
                 break;
         }
     }
 
     private View.OnClickListener checkCardHandler(DefaultViewHolder defaultViewHolder, CustomizePizzaData cpd) {
         return view -> {
+            Log.d("ToppingCustomize", "checkCardHandler: " + cpd.getTopping());
             defaultViewHolder.updateDataCheckedState();
             n.notifyUpdatedData(cpd.getTopping(), MenuItem.MenuItemType.TOPPING);
         };

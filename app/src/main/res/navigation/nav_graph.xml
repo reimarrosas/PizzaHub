@@ -228,9 +228,6 @@
         <action
             android:id="@+id/action_adminPremadeFragment_to_savePremadeFragment"
             app:destination="@id/savePremadeFragment" />
-        <argument
-            android:name="toppings"
-            app:argType="me.reimarrosas.pizzahub.models.Topping[]" />
     </fragment>
     <fragment
         android:id="@+id/adminToppingsFragment"
@@ -268,8 +265,8 @@
             android:id="@+id/action_savePremadeFragment_to_adminPremadeFragment"
             app:destination="@id/adminPremadeFragment" />
         <argument
-            android:name="toppings"
-            app:argType="me.reimarrosas.pizzahub.models.Topping[]" />
+            android:name="premade"
+            app:argType="me.reimarrosas.pizzahub.models.Premade" />
     </fragment>
     <fragment
         android:id="@+id/userVerificationFragment"

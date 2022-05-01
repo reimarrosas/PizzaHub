@@ -126,8 +126,7 @@ public class AdminHomeFragment extends Fragment implements Notifiable {
         binding.fabToppings.setOnClickListener(view -> navigator(view,
                 AdminHomeFragmentDirections.actionAdminHomeFragmentToAdminToppingsFragment()));
         binding.fabPremades.setOnClickListener(view -> navigator(view,
-                AdminHomeFragmentDirections.actionAdminHomeFragmentToAdminPremadeFragment(
-                        new Topping[]{})));
+                AdminHomeFragmentDirections.actionAdminHomeFragmentToAdminPremadeFragment()));
     }
 
     private void navigator(View view, NavDirections direction) {

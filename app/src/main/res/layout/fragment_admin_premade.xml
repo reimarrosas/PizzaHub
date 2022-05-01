@@ -7,58 +7,16 @@
     android:background="@color/yellow"
     tools:context=".fragments.admin.AdminPremadeFragment">
 
-    <!-- TODO: Update blank fragment layout -->
     <TextView
-        android:id="@+id/textViewAddPremadeTitle"
         style="@style/title"
+        android:id="@+id/textViewPremadeTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:text="@string/add_premade_title"
+        android:text="Premades"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
-    <EditText
-        android:id="@+id/editTextPizzaIngredient"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="8dp"
-        android:background="@color/light"
-        android:ems="10"
-        android:hint="@string/pizza_ingredient_input"
-        android:inputType="text"
-        android:paddingStart="16sp"
-        android:paddingEnd="16sp"
-        android:paddingTop="8sp"
-        android:paddingBottom="8sp"
-        android:textSize="16sp"
-        app:layout_constraintEnd_toStartOf="@+id/buttonAddToList"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textViewAddPremadeTitle"
-        tools:ignore="TouchTargetSizeCheck,TextContrastCheck"
-        android:autofillHints="" />
-
-    <Button
-        android:id="@+id/buttonAddToList"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="16dp"
-        android:text="@string/add_to_list_button"
-        android:backgroundTint="@color/blue"
-        android:textColor="@color/light"
-        android:textSize="16sp"
-        android:textStyle="bold"
-        android:letterSpacing="0.2"
-        app:layout_constraintBottom_toBottomOf="@+id/editTextPizzaIngredient"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/editTextPizzaIngredient"
-        app:layout_constraintTop_toTopOf="@+id/editTextPizzaIngredient" />
 
     <Button
         android:id="@+id/buttonCreatePremade"
@@ -67,23 +25,27 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="16dp"
-        android:backgroundTint="@color/red"
-        android:letterSpacing="0.2"
         android:text="@string/create_button"
-        android:textColor="@color/yellow"
-        android:textSize="16sp"
-        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextPizzaIngredient" />
+        app:layout_constraintTop_toBottomOf="@+id/textViewPremadeTitle" />
 
     <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerViewAdminPremade"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/buttonCreatePremade" />
 
+    <TextView
+        style="@style/go_back_link"
+        android:id="@+id/textViewPremadeGoBack"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/go_back_link"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>
