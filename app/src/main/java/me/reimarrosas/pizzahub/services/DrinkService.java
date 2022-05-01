@@ -60,9 +60,14 @@ public class DrinkService implements Service<Drink> {
 
     @Override
     public void upsertData(Drink data) {
-        DB.add(data)
-                .addOnSuccessListener(ref ->
-                        Log.d(TAG, "Document written on ID: " + ref.getId()))
+        String id = DB.document().getId();
+        if (data.getId() == null) {
+            data.setId(id);
+        }
+        DB.document(data.getId())
+                .set(data)
+                .addOnSuccessListener(_void ->
+                        Log.d(TAG, "Document written on ID: " + data.getId()))
                 .addOnFailureListener(ex -> Log.w(TAG, "Error inserting document: ", ex));
     }
 

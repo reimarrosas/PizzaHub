@@ -51,6 +51,10 @@ public class ItemCrudViewHolder<T extends Extras> extends RecyclerView.ViewHolde
         itemView.setOnClickListener(ocl);
     }
 
+    public void unsetTypeTitle() {
+        ((TextView) itemView.findViewById(R.id.textViewTypeTitle)).setText("");
+    }
+
     private void loadImage(String imageUrl) {
         Glide.with(context)
                 .asBitmap()

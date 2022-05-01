@@ -8,9 +8,6 @@ public interface Updatable<T> {
 
     void notifyDataListChange();
 
-    default void notifyAddData(int position) {
-    }
-
     default void notifyUpdateData(int position) {
     }
 
@@ -20,9 +17,9 @@ public interface Updatable<T> {
         notifyDataListChange();
     }
 
-    default void addData(int position, T data) {
-        getDataList().add(position, data);
-        notifyAddData(position);
+    default void addData(T data) {
+        getDataList().add(data);
+        notifyDataListChange();
     }
 
     default void updateData(T oldData, T data) {

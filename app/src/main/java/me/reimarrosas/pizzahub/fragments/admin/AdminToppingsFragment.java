@@ -95,9 +95,7 @@ public class AdminToppingsFragment extends Fragment implements Notifiable {
         binding.buttonToppingSave.setOnClickListener(_view -> {
             String buttonType = binding.buttonToppingSave.getText().toString();
             boolean isCreate = buttonType.equals("Create");
-            if (isCreate) {
-                topping.setId(null);
-            }
+            Topping oldTopping = new Topping(topping);
 
             topping.setType(binding.spinnerType.getSelectedItem().toString());
             topping.setImageUrl(binding.editTextImageUrl.getText().toString());
@@ -107,20 +105,15 @@ public class AdminToppingsFragment extends Fragment implements Notifiable {
             service.upsertData(topping);
 
             if (isCreate) {
-                this.adapter.addData(0, topping);
+                this.adapter.addData(topping);
             } else {
-                this.adapter.updateData(topping, topping);
-                binding.buttonToppingSave.setText("Create");
+                this.adapter.updateData(oldTopping, topping);
             }
 
             clearInputs();
-            topping = null;
         });
         binding.buttonToppingReset.setOnClickListener(_view -> {
-            binding.editTextItemName.setText("");
-            binding.editTextImageUrl.setText("");
-            binding.editTextPrice.setText("");
-            binding.buttonToppingSave.setText("Create");
+            clearInputs();
         });
     }
 
@@ -155,6 +148,8 @@ public class AdminToppingsFragment extends Fragment implements Notifiable {
         binding.editTextImageUrl.setText("");
         binding.editTextItemName.setText("");
         binding.spinnerType.setSelection(0);
+        binding.buttonToppingSave.setText("Create");
+        topping = new Topping();
     }
 
 }

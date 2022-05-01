@@ -1,6 +1,7 @@
 package me.reimarrosas.pizzahub.recycleradapters.adminadapters;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -49,6 +50,9 @@ public class AdminAdapter<T extends Extras> extends RecyclerView.Adapter<ItemCru
 
         holder.setData(data);
         holder.setOnViewClick(view -> n.notifyUpdatedData(data, type));
+        if (type != MenuItem.MenuItemType.TOPPING) {
+            holder.unsetTypeTitle();
+        }
     }
 
     @Override
@@ -67,11 +71,6 @@ public class AdminAdapter<T extends Extras> extends RecyclerView.Adapter<ItemCru
     }
 
     @Override
-    public void notifyAddData(int position) {
-        notifyItemInserted(position);
-    }
-
-    @Override
     public void notifyUpdateData(int position) {
         notifyItemChanged(position);
     }
@@ -79,6 +78,7 @@ public class AdminAdapter<T extends Extras> extends RecyclerView.Adapter<ItemCru
     @Override
     public void onViewSwiped(int position) {
         T data = dataList.get(position);
+        Log.d("AdminAdapter", "onViewSwiped: " + data + ", id: " + data.getId());
         dataList.remove(position);
         notifyItemRemoved(position);
         service.deleteData(data.getId());

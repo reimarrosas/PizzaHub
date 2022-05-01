@@ -90,6 +90,10 @@
     <string name="topping_name">Topping Name</string>
     <string name="topping_image_url">Topping Image URL</string>
     <string name="topping_price">Topping Price</string>
+    <string name="reset_button">Reset</string>
+    <string name="drink_price">Drink Price</string>
+    <string name="drink_image_url">Drink Image URL</string>
+    <string name="drink_name">Drink Name</string>
 
     <string-array name="topping_types">
         <item>seafood</item>

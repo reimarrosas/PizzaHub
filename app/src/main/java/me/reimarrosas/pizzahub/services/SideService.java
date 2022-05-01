@@ -66,9 +66,14 @@ public class SideService implements Service<Side> {
 
     @Override
     public void upsertData(Side data) {
-        DB.add(data)
-                .addOnSuccessListener(ref ->
-                        Log.d(TAG, "Document written with ID: " + ref.getId()))
+        String id = DB.document().getId();
+        if (data.getId() == null) {
+            data.setId(id);
+        }
+        DB.document(data.getId())
+                .set(data)
+                .addOnSuccessListener(_void ->
+                        Log.d(TAG, "Document written with ID: " + data.getId()))
                 .addOnFailureListener(ex -> Log.w(TAG, "Error inserting document: ", ex));
     }
 
