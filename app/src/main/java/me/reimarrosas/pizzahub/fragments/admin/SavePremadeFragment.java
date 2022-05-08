@@ -91,6 +91,7 @@ public class SavePremadeFragment extends Fragment implements Notifiable {
                 premade.setImageUrl(binding.editTextPremadeImageUrl.getText().toString());
                 premade.setToppings(selectedToppings);
                 premadeService.upsertData(premade);
+                goToAdminPremade();
             } else {
                 Toast.makeText(
                         getContext(),
@@ -98,7 +99,6 @@ public class SavePremadeFragment extends Fragment implements Notifiable {
                         Toast.LENGTH_SHORT
                 ).show();
             }
-            goToAdminPremade();
         });
         binding.buttonPremadeCancel.setOnClickListener(_view -> {
             goToAdminPremade();

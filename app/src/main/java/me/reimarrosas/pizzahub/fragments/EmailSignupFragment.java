@@ -63,8 +63,8 @@ public class EmailSignupFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         FirebaseUser currentUser = auth.getCurrentUser();
-        currentUser.reload();
         if (currentUser != null) {
+            currentUser.reload();
             checkIfVerified(currentUser.isEmailVerified());
         }
 

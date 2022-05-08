@@ -51,15 +51,17 @@ public class UserVerificationFragment extends Fragment {
         super.onCreate(savedInstanceState);
 
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
-        currentUser.reload();
         if (currentUser == null) {
             NavDirections action = UserVerificationFragmentDirections
                     .actionUserVerificationFragmentToSignInOptionsFragment();
             Navigation.findNavController(getView()).navigate(action);
-        } else if (currentUser.isEmailVerified()) {
-            NavDirections action = UserVerificationFragmentDirections
-                    .actionUserVerificationFragmentToHomeFragment2();
-            Navigation.findNavController(getView()).navigate(action);
+        } else {
+            currentUser.reload();
+            if (currentUser.isEmailVerified()) {
+                NavDirections action = UserVerificationFragmentDirections
+                        .actionUserVerificationFragmentToHomeFragment2();
+                Navigation.findNavController(getView()).navigate(action);
+            }
         }
     }
 

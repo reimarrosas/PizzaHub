@@ -53,7 +53,6 @@ public abstract class ValidationHelper {
     public static boolean isAddressValid(DeliveryAddress address) {
         return !"".equals(address.getName().trim()) &&
                 !"".equals(address.getAddress1().trim()) &&
-                !"".equals(address.getAddress2().trim()) &&
                 !"".equals(address.getCity().trim()) &&
                 !"".equals(address.getProvince().trim()) &&
                 !"".equals(address.getPostalCode().trim());
